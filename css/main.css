@@ -140,7 +140,7 @@ ul{list-style:none}
 .momentum-key{font-size:13px;color:var(--text-sub);font-family:var(--font-heading);letter-spacing:0.08em;text-transform:uppercase}
 .momentum-val{font-size:15px;font-weight:600;color:var(--text)}
 .momentum-val.accent{color:var(--red-light)}
-.momentum-desc{font-size:15px;color:var(--text-sub);margin-top:22px;line-height:1.9}
+.momentum-desc{font-size:16px;color:var(--text);margin-top:22px;line-height:2.0;font-weight:300}
 
 /* STRATEGY */
 .strategy{padding:var(--section-pad) 0;background:var(--surface1)}
@@ -750,8 +750,9 @@ ul{list-style:none}
 /* ── 모바일 Business 항목 텍스트 크기 조정 ── */
 @media(max-width:768px){
   .biz-list-desc{
-    font-size:11.5px!important;
-    line-height:1.7!important;
+    font-size:13px!important;
+    line-height:1.75!important;
+    color:var(--text-sub)!important;
     word-break:keep-all!important;
     overflow-wrap:anywhere!important;
   }
