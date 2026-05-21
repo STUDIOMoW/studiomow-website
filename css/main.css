@@ -42,7 +42,7 @@ ul{list-style:none}
 
 /* SECTION HEADERS */
 .section-header{margin-bottom:64px}
-.section-tag{font-family:var(--font-display);font-size:18px;letter-spacing:0.4em;color:var(--red);margin-bottom:18px;display:flex;align-items:center;gap:12px}
+.section-tag{font-family:var(--font-display);font-size:20px;letter-spacing:0.4em;color:#d94040;margin-bottom:18px;display:flex;align-items:center;gap:12px}
 .section-tag::before{content:'';display:block;width:28px;height:1px;background:var(--red);flex-shrink:0}
 .section-title{font-family:var(--font-heading);font-size:clamp(28px,4vw,46px);font-weight:700;line-height:1.12;color:var(--text);letter-spacing:-0.02em}
 
@@ -750,9 +750,9 @@ ul{list-style:none}
 /* ── 모바일 Business 항목 텍스트 크기 조정 ── */
 @media(max-width:768px){
   .biz-list-desc{
-    font-size:13px!important;
+    font-size:14px!important;
     line-height:1.75!important;
-    color:var(--text-sub)!important;
+    color:#e0dbd2!important;
     word-break:keep-all!important;
     overflow-wrap:anywhere!important;
   }
