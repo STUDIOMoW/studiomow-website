@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Collaboration | STUDIOMoW</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Serif+KR:wght@300;400;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Montserrat:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <style>
+    .collab-grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border)}
+    .collab-card-4{background:var(--surface1);padding:48px 28px 44px;display:flex;flex-direction:column;gap:14px;transition:background 0.3s}
+    .collab-card-4:hover{background:var(--surface2)}
+    .collab-icon-4{font-size:32px}
+    .collab-title-4{font-family:var(--font-heading);font-size:20px;font-weight:700;color:var(--text)}
+    .email-cta{display:inline-flex;flex-direction:column;align-items:center;gap:12px;padding:36px 60px;border:1px solid var(--border-red);text-decoration:none;transition:background 0.3s;background:var(--surface1)}
+    .email-cta:hover{background:rgba(142,32,40,0.08)}
+    .email-cta-label{font-family:var(--font-display);font-size:11px;letter-spacing:0.5em;color:var(--red)}
+    .email-cta-addr{font-family:var(--font-heading);font-size:clamp(16px,2.2vw,24px);font-weight:700;color:var(--text)}
+    .email-cta-hint{font-size:12px;color:var(--text-mute)}
+    @media(max-width:1024px){.collab-grid-4{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:480px){.collab-grid-4{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<nav class="nav scrolled" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><span class="logo-studio">STUDIO</span><span class="logo-mow">MoW</span></a>
+    <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+    <ul class="nav-menu" id="navMenu">
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#director">Director</a></li>
+      <li><a href="index.html#collaboration" style="color:var(--red)">Collaboration</a></li>
+      <li><a href="index.html#business">Business</a></li>
+      <li><a href="index.html#news">News</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="container">
+    <div class="page-hero-tag">COLLABORATION</div>
+    <h1 class="page-hero-title">함께할 인재를<br>모십니다</h1>
+    <p class="page-hero-desc">
+      <span class="pc-only">장르영화를 사랑하는 모든 분들의 이야기를 듣고 싶습니다<br>분야와 경력에 관계없이 열정으로 지원 부탁 드립니다</span><span class="mob-only">장르영화를 사랑하는<br>분들의 이야기를 듣고 싶습니다<br>분야와 경력에 관계없이 열정으로<br>지원 부탁드립니다</span>
+    </p>
+  </div>
+</section>
+
+<section style="padding:56px 0;background:var(--bg);border-bottom:1px solid var(--border);">
+  <div class="container">
+    <div class="collab-grid-4">
+      <div class="collab-card-4"><div class="collab-icon-4">✍️</div><div class="collab-title-4">작 가</div></div>
+      <div class="collab-card-4"><div class="collab-icon-4">🎬</div><div class="collab-title-4">감 독</div></div>
+      <div class="collab-card-4"><div class="collab-icon-4">🎭</div><div class="collab-title-4">배 우</div></div>
+      <div class="collab-card-4"><div class="collab-icon-4">🎥</div><div class="collab-title-4">스 탭</div></div>
+    </div>
+  </div>
+</section>
+
+<section style="padding:var(--section-pad) 0;background:var(--surface1);">
+  <div class="container">
+    <div style="text-align:center;max-width:640px;margin:0 auto;">
+      <div style="font-family:var(--font-display);font-size:11px;letter-spacing:0.5em;color:var(--red);margin-bottom:20px;">CONTACT</div>
+      <p style="font-size:14px;color:var(--text-sub);line-height:2.1;margin-bottom:40px;">
+        <span class="pc-only">프로필, 포트폴리오, 작품 링크 등<br>자유로운 형식으로 보내주세요<br>검토 후 적합한 경우 직접 연락 드리겠습니다</span><span class="mob-only">프로필, 포트폴리오, 작품 링크 등<br>자유로운 형식으로 보내주세요</span>
+      </p>
+      <a href="mailto:studiomow75@gmail.com?subject=[Collaboration] 이름_분야" class="email-cta">
+        <span class="email-cta-label">EMAIL</span>
+        <span class="email-cta-addr">studiomow75@gmail.com</span>
+        <span class="email-cta-hint">제목 · [Collaboration] 이름_분야</span>
+      </a>
+      <p style="margin-top:20px;font-size:12px;color:var(--text-mute);">
+        제출하신 정보는 인재 검토 목적으로만 사용되며 제3자에게 제공하지 않습니다
+      </p>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-logo"><span class="logo-studio">STUDIO</span><span class="logo-mow">MoW</span></div>
+      <div class="footer-links"><a href="index.html">홈</a><a href="index.html#business">Business</a></div>
+      <div class="footer-copy">© 2026 STUDIOMoW. All rights reserved.</div>
+    </div>
+  </div>
+  <div class="footer-legal">© 2026 STUDIOMoW | www.studiomow.co.kr</div>
+</footer>
+<script src="js/main.js"></script>
+</body>
+</html>

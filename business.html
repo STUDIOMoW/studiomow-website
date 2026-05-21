@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Business | STUDIOMoW</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Serif+KR:wght@300;400;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Montserrat:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <style>
+    .biz-list-item{display:flex;align-items:flex-start;padding:28px 0;border-bottom:1px solid var(--border);transition:padding-left 0.25s}
+    .biz-list-item:hover{padding-left:8px}
+    .biz-list-num{font-family:var(--font-display);font-size:32px;color:rgba(142,32,40,0.22);transition:color 0.25s;line-height:1;flex-shrink:0;min-width:52px;padding-top:2px}
+    .biz-list-item:hover .biz-list-num{color:var(--red)}
+    .biz-list-title{font-family:var(--font-heading);font-size:17px;font-weight:700;color:var(--text);margin-bottom:8px}
+    .biz-list-desc{font-size:14px;color:var(--text-mute);line-height:1.9}
+    .email-cta{display:inline-flex;flex-direction:column;align-items:flex-start;gap:12px;padding:32px 40px;border:1px solid var(--border-red);text-decoration:none;transition:background 0.3s;background:var(--surface1)}
+    .email-cta:hover{background:rgba(142,32,40,0.08)}
+    .email-cta-label{font-family:var(--font-display);font-size:11px;letter-spacing:0.5em;color:var(--red)}
+    .email-cta-addr{font-family:var(--font-heading);font-size:clamp(16px,2vw,22px);font-weight:700;color:var(--text)}
+    .email-cta-hint{font-size:12px;color:var(--text-mute)}
+    @media(max-width:1024px){.biz-2col{grid-template-columns:1fr!important}}
+  </style>
+</head>
+<body>
+<nav class="nav scrolled" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><span class="logo-studio">STUDIO</span><span class="logo-mow">MoW</span></a>
+    <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+    <ul class="nav-menu" id="navMenu">
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#director">Director</a></li>
+      <li><a href="index.html#collaboration">Collaboration</a></li>
+      <li><a href="index.html#business" style="color:var(--red)">Business</a></li>
+      <li><a href="index.html#news">News</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="page-hero">
+  <div class="container">
+    <div class="page-hero-tag">BUSINESS</div>
+    <h1 class="page-hero-title">전략적 파트너십을<br>환영합니다</h1>
+    <p class="page-hero-desc">
+      <span class="pc-only">STUDIOMoW는 투자·공동제작·배급·OTT·IP 기반 사업 등<br>다양한 비즈니스 협업을 환영합니다</span><span class="mob-only">STUDIOMoW는<br>투자·공동제작·배급·OTT 등<br>다양한 비즈니스 협업을 환영합니다</span>
+    </p>
+  </div>
+</section>
+
+<section style="padding:var(--section-pad) 0;background:var(--bg);">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:380px 1fr;gap:80px;align-items:start;" class="biz-2col">
+      <div>
+        <div class="section-tag" style="margin-bottom:24px;">CONTACT</div>
+        <p style="font-size:14px;color:var(--text-sub);line-height:2.1;margin-bottom:32px;">
+          <span class="pc-only">장르 IP의 개발부터 글로벌 확장까지<br>지속 가능한 파트너십을 함께 만들어갑니다</span><span class="mob-only">장르 IP의 개발부터 글로벌 확장까지<br>지속 가능한 파트너십을 함께 만들어갑니다</span></p>
+        <a href="mailto:studiomow75@gmail.com?subject=[Business] 회사명_제안유형" class="email-cta">
+          <span class="email-cta-label">EMAIL</span>
+          <span class="email-cta-addr">studiomow75@gmail.com</span>
+          <span class="email-cta-hint">제목 · [Business] 회사명_제안유형</span>
+        </a>
+        <p style="margin-top:16px;font-size:12px;color:var(--text-mute);line-height:1.8;">
+          제출하신 제안 내용은 비즈니스 협의 목적으로만 사용되며<br>
+          제3자에게 제공하지 않습니다
+        </p>
+      </div>
+
+      <div>
+        <div class="biz-list">
+          <div class="biz-list-item">
+            <div class="biz-list-num">01</div>
+            <div>
+              <div class="biz-list-title">투자 제안</div>
+              <div class="biz-list-desc">장르영화 프로젝트 투자 참여<br>명확한 제작 구조와 체계적인 리스크 관리 시스템을 지향합니다</div>
+            </div>
+          </div>
+          <div class="biz-list-item">
+            <div class="biz-list-num">02</div>
+            <div>
+              <div class="biz-list-title">공동 제작</div>
+              <div class="biz-list-desc">국내외 프로덕션과의 공동 제작<br>K-Horror IP의 해외 리메이크 공동 개발도 제안을 환영합니다</div>
+            </div>
+          </div>
+          <div class="biz-list-item">
+            <div class="biz-list-num">03</div>
+            <div>
+              <div class="biz-list-title">배급 협력</div>
+              <div class="biz-list-desc">국내외 극장 배급사 · OTT 플랫폼 · 해외 세일즈 에이전트와의<br>파트너십을 환영합니다</div>
+            </div>
+          </div>
+          <div class="biz-list-item">
+            <div class="biz-list-num">04</div>
+            <div>
+              <div class="biz-list-title">MOU</div>
+              <div class="biz-list-desc"><span class="pc-only">엔터테인먼트 관련 전략적 파트너십을 환영합니다</span><span class="mob-only">엔터테인먼트 관련<br>전략적 파트너십을 환영합니다</span></div>
+            </div>
+          </div>
+          <div class="biz-list-item" style="border-bottom:none;">
+            <div class="biz-list-num">05</div>
+            <div>
+              <div class="biz-list-title">글로벌 파트너</div>
+              <div class="biz-list-desc">해외 영화제 출품 · 국제 공동제작 · 글로벌 OTT 피칭을<br>함께할 파트너를 모십니다</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-logo"><span class="logo-studio">STUDIO</span><span class="logo-mow">MoW</span></div>
+      <div class="footer-links"><a href="index.html">홈</a><a href="index.html#collaboration">Collaboration</a></div>
+      <div class="footer-copy">© 2026 STUDIOMoW. All rights reserved.</div>
+    </div>
+  </div>
+  <div class="footer-legal">© 2026 STUDIOMoW | www.studiomow.co.kr</div>
+</footer>
+<script src="js/main.js"></script>
+</body>
+</html>

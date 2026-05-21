@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+  <title>STUDIOMoW | Premium Korean Genre Cinema</title>
+  <meta name="description" content="STUDIOMoW — Korean genre film production company specializing in horror, thriller, and occult.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Serif+KR:wght@300;400;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Montserrat:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <style>
+    .hero{position:relative;height:100vh;min-height:640px;overflow:hidden;display:flex;align-items:center}
+    #heroCanvas{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+    .hero-overlay{position:absolute;inset:0;z-index:1;background:radial-gradient(ellipse at 60% 40%,rgba(92,20,25,0.18) 0%,transparent 60%),linear-gradient(to bottom,rgba(15,14,13,0.6) 0%,rgba(15,14,13,0.1) 50%,rgba(15,14,13,0.8) 100%)}
+    .hero-grain{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:0.07;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px;animation:grainShift 0.12s steps(1) infinite}
+    @keyframes grainShift{0%{background-position:0 0}25%{background-position:60px -30px}50%{background-position:-40px 20px}75%{background-position:30px 50px}}
+    .hero-vignette{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse at center,transparent 35%,rgba(15,14,13,0.82) 100%)}
+    .hero-flicker{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse at 50% 50%,rgba(142,32,40,0.06) 0%,transparent 70%);animation:flickerPulse 3.7s ease-in-out infinite}
+    @keyframes flickerPulse{0%,100%{opacity:0.4}18%{opacity:0.9}20%{opacity:0.2}22%{opacity:0.85}50%{opacity:0.5}72%{opacity:0.95}74%{opacity:0.15}76%{opacity:0.8}}
+    .hero-content{position:relative;z-index:3;padding:0 48px;max-width:1200px;margin:0 auto;width:100%;padding-top:var(--nav-h);animation:heroFadeUp 1.6s var(--ease-out) 0.4s both}
+    @keyframes heroFadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+    .hero-en{font-family:var(--font-heading);font-size:11px;font-weight:500;letter-spacing:0.35em;color:var(--text-sub);text-transform:uppercase;margin-bottom:24px}
+    .hero-ko{font-family:var(--font-heading);font-size:clamp(14px,1.7vw,17px);font-weight:300;color:var(--text-sub);line-height:2.1;margin-bottom:40px;max-width:400px}
+    .hero-scroll{position:absolute;bottom:44px;right:52px;display:flex;align-items:center;gap:10px;z-index:3}
+    .hero-scroll span{font-family:var(--font-display);font-size:10px;letter-spacing:0.4em;color:var(--text-mute);writing-mode:vertical-rl}
+    .scroll-line{width:1px;height:56px;background:linear-gradient(to bottom,var(--red),transparent);animation:scrollPulse 2.4s ease-in-out infinite}
+    @keyframes scrollPulse{0%,100%{opacity:0.4;transform:scaleY(1)}50%{opacity:1;transform:scaleY(0.6)}}
+    .about-text-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+    .timeline-row{display:flex;flex-wrap:wrap;gap:0;border-top:1px solid var(--border);margin-top:36px}
+    .timeline-cell{flex:1;min-width:100px;padding:20px 16px 20px 0;border-right:1px solid var(--border)}
+    .timeline-cell:last-child{border-right:none}
+    .t-year{font-family:var(--font-display);font-size:20px;color:var(--red);line-height:1;margin-bottom:6px}
+    .t-title{font-family:var(--font-heading);font-size:13px;font-weight:600;color:var(--text);line-height:1.4;margin-bottom:4px}
+    .t-platform{font-family:var(--font-heading);font-size:10px;letter-spacing:0.06em;color:var(--text-mute)}
+    .collab-grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border)}
+    .collab-card-4{background:var(--surface1);padding:48px 20px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:16px;transition:background 0.3s;min-height:160px}
+    .collab-card-4:hover{background:var(--surface2)}
+    .collab-icon-4{font-size:28px}
+    .collab-title-4{font-family:var(--font-heading);font-size:18px;font-weight:700;color:var(--text)}
+    .biz-list-item{display:flex;align-items:flex-start;padding:24px 0;border-bottom:1px solid var(--border);transition:padding-left 0.25s}
+    .biz-list-item:hover{padding-left:8px}
+    .biz-list-num{font-family:var(--font-display);font-size:28px;color:rgba(142,32,40,0.22);transition:color 0.25s;line-height:1;flex-shrink:0;min-width:52px;padding-top:2px}
+    .biz-list-item:hover .biz-list-num{color:var(--red)}
+    .biz-list-title{font-family:var(--font-heading);font-size:15px;font-weight:700;color:var(--text);margin-bottom:6px}
+    .biz-list-desc{font-size:13px;color:var(--text-mute);line-height:1.9}
+    .news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
+    .news-card{background:var(--surface1);overflow:hidden}
+    .news-card-body{padding:28px 28px 32px}
+    .news-card-date{font-family:var(--font-heading);font-size:10px;letter-spacing:0.12em;color:var(--text-mute);margin-bottom:12px}
+    .news-card-title{font-family:var(--font-heading);font-size:15px;font-weight:700;color:var(--text);line-height:1.55;margin-bottom:16px}
+    .news-card-more{font-family:var(--font-heading);font-size:10px;letter-spacing:0.15em;color:var(--red);text-transform:uppercase}
+    .news-empty{background:var(--surface1);padding:80px 32px;text-align:center;color:var(--text-mute);font-size:13px;grid-column:1/-1;line-height:2}
+    .email-cta{display:inline-flex;flex-direction:column;align-items:center;gap:12px;padding:36px 60px;border:1px solid var(--border-red);text-decoration:none;transition:background 0.3s;background:var(--bg)}
+    .email-cta:hover{background:rgba(142,32,40,0.08)}
+    .email-cta-label{font-family:var(--font-display);font-size:11px;letter-spacing:0.5em;color:var(--red)}
+    .email-cta-addr{font-family:var(--font-heading);font-size:clamp(16px,2.2vw,24px);font-weight:700;color:var(--text)}
+    .email-cta-hint{font-size:12px;color:var(--text-mute)}
+    @media(max-width:1024px){.about-text-grid{grid-template-columns:1fr;gap:48px}.collab-grid-4{grid-template-columns:repeat(2,1fr)}.timeline-row{flex-wrap:wrap}.timeline-cell{min-width:140px}.biz-2col{grid-template-columns:1fr!important}}
+    @media(max-width:768px){.hero-content{padding:0 24px;padding-top:var(--nav-h)}.hero-scroll{display:none}.collab-grid-4{grid-template-columns:1fr 1fr}.news-grid{grid-template-columns:1fr}.about-text-grid{grid-template-columns:1fr!important}}
+    @media(max-width:480px){.collab-grid-4{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index_en.html" class="nav-logo"><span class="logo-studio">STUDIO</span><span class="logo-mow">MoW</span></a>
+    <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+    <ul class="nav-menu" id="navMenu">
+      <li><a href="#about">About</a></li>
+      <li><a href="#director">Director</a></li>
+      <li><a href="#collaboration">Collaboration</a></li>
+      <li><a href="#business">Business</a></li>
+      <li><a href="#news">News</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li class="lang-switch">
+        <a href="index.html" class="lang-btn">KO</a>
+        <span style="color:var(--text-mute);margin:0 2px;">|</span>
+        <a href="index_en.html" class="lang-btn lang-active">EN</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <canvas id="heroCanvas"></canvas>
+  <div class="hero-overlay"></div>
+  <div class="hero-grain"></div>
+  <div class="hero-vignette"></div>
+  <div class="hero-flicker"></div>
+  <div class="hero-content">
+    <div class="hero-rule"></div>
+    <div class="hero-en">PREMIUM KOREAN GENRE CINEMA</div>
+    <h1 class="hero-title">
+      <span class="logo-studio-h">STUDIO</span>
+      <span class="logo-mow-h">MoW</span>
+    </h1>
+    <p class="hero-ko">
+      Horror, thriller, mystery and drama.<br>
+      Cinematic genre stories that explore<br>
+      the darkness within the human soul.
+    </p>
+    <div class="hero-cta">
+      <a href="#collaboration" class="btn btn-primary">Collaboration</a>
+      <a href="#business" class="btn btn-outline">Business</a>
+    </div>
+  </div>
+  <div class="hero-scroll"><span>SCROLL</span><div class="scroll-line"></div></div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about" style="background:var(--bg);">
+  <div class="container">
+    <div class="about-text-grid">
+      <div>
+        <div class="section-header">
+          <div class="section-tag">ABOUT</div>
+          <h2 class="section-title">Designing genre,<br>completing the story</h2>
+        </div>
+        <p class="about-body">
+          STUDIOMoW is a story-driven production company<br>
+          specializing in horror, thriller, mystery and drama.<br><br>
+          We develop original genre IPs and expand them<br>
+          into films, dramas, series and OTT content<br>
+          for the global market.
+        </p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0;">
+        <div class="pillar"><div class="pillar-icon">◈</div><div><div class="pillar-title">Genre Expertise</div><div class="pillar-desc">A dedicated production system and genre brand built around horror · occult · thriller</div></div></div>
+        <div class="pillar"><div class="pillar-icon">◈</div><div><div class="pillar-title">Concept-Driven Development</div><div class="pillar-desc">Strong IP development led by subject matter, setting, space, and the horror experience</div></div></div>
+        <div class="pillar"><div class="pillar-icon">◈</div><div><div class="pillar-title">Korean Sensibility</div><div class="pillar-desc">Original IP strategy — designing global horror from the most local source material</div></div></div>
+        <div class="pillar"><div class="pillar-icon">◈</div><div><div class="pillar-title">Global IP Expansion</div><div class="pillar-desc">Series-format IP built with overseas remakes and global OTT expansion in mind</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIRECTOR -->
+<section class="director" id="director">
+  <div class="director-bg">
+    <img src="https://images.unsplash.com/photo-1478720568477-152d9b164e26?w=1920&q=80" alt="" class="director-bg-img">
+    <div class="director-overlay"></div>
+  </div>
+  <div class="container">
+    <div class="section-header section-header-light" style="position:relative;z-index:2;">
+      <div class="section-tag">DIRECTOR</div>
+      <h2 class="section-title">Director Daewung Lim</h2>
+      <p style="font-size:14px;color:var(--text-sub);margin-top:8px;font-family:var(--font-heading);font-weight:300;letter-spacing:0.05em;">The Stylist of Genre Cinema</p>
+    </div>
+    <div class="director-grid">
+      <div class="director-info">
+        <div class="director-desc">
+          <p>A master of the Blumhouse model — <strong>'confined space, maximized fear'</strong> — and one of Korea's foremost genre specialists.</p>
+          <p>Balancing genre expertise, multi-format experience, and sharp trend awareness, he is recognized for his tension-driven direction optimized for the OTT environment.</p>
+          <p>As lead mentor of K-Horror Lab, he spearheads the discovery and development of the next generation of genre talent.</p>
+        </div>
+        <div class="timeline-row">
+          <div class="timeline-cell"><div class="t-year">2026</div><div class="t-title">M : Reboot</div><div class="t-platform">In Production · TVING</div></div>
+          <div class="timeline-cell"><div class="t-year">2025</div><div class="t-title">Cheongdam Intl High S2</div><div class="t-platform">Wavve · Netflix</div></div>
+          <div class="timeline-cell"><div class="t-year">2023</div><div class="t-title">Goedam Manchan</div><div class="t-platform">Film</div></div>
+          <div class="timeline-cell"><div class="t-year">2022</div><div class="t-title">Midnight Horror:<br>6 Nights</div><div class="t-platform">Film</div></div>
+          <div class="timeline-cell"><div class="t-year">2020</div><div class="t-title">Search</div><div class="t-platform">OCN</div></div>
+          <div class="timeline-cell"><div class="t-year">2017</div><div class="t-title">Bulsokjigaek<br><span style="font-weight:400;color:var(--text-mute);">China Co-prod</span></div><div class="t-platform">Film</div></div>
+          <div class="timeline-cell"><div class="t-year">2012</div><div class="t-title">Horror Stories</div><div class="t-platform">Film</div></div>
+          <div class="timeline-cell"><div class="t-year">2006</div><div class="t-title">Seungseuui Eunhye</div><div class="t-platform">Film</div></div>
+        </div>
+      </div>
+      <div class="momentum-card">
+        <div class="momentum-label">CURRENT PROJECT</div>
+        <div class="momentum-title">M : Reboot</div>
+        <div class="momentum-row"><span class="momentum-key">Platform</span><span class="momentum-val accent">TVING</span></div>
+        <div class="momentum-row"><span class="momentum-key">Principal Photography</span><span class="momentum-val">May 2026</span></div>
+        <div class="momentum-row"><span class="momentum-key">Status</span><span class="momentum-val accent">Confirmed</span></div>
+        <p class="momentum-desc">
+          A reboot of the legendary 1994 Korean drama 'M'<br>
+          that gripped the nation with fear.<br>
+          Director Daewung Lim brings it back in 2026<br>
+          with a bold contemporary vision.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COLLABORATION -->
+<section style="padding:var(--section-pad) 0;background:var(--surface1);" id="collaboration">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-tag">COLLABORATION</div>
+      <h2 class="section-title">We are looking for<br>talent to join us</h2>
+      <p style="font-size:14px;color:var(--text-sub);margin-top:20px;line-height:2.1;max-width:540px;">
+        We want to hear from everyone who loves genre film.<br>
+        Passion matters more than experience or background.<br>
+        We welcome your application.
+      </p>
+    </div>
+    <div class="collab-grid-4" style="margin-bottom:64px;">
+      <div class="collab-card-4"><div class="collab-icon-4">✍️</div><div class="collab-title-4">Writer</div></div>
+      <div class="collab-card-4"><div class="collab-icon-4">🎬</div><div class="collab-title-4">Director</div></div>
+      <div class="collab-card-4"><div class="collab-icon-4">🎭</div><div class="collab-title-4">Actor</div></div>
+      <div class="collab-card-4"><div class="collab-icon-4">🎥</div><div class="collab-title-4">Crew</div></div>
+    </div>
+    <div style="text-align:center;padding-top:48px;border-top:1px solid var(--border);">
+      <div style="font-family:var(--font-display);font-size:11px;letter-spacing:0.5em;color:var(--red);margin-bottom:20px;">CONTACT</div>
+      <p style="font-size:14px;color:var(--text-sub);line-height:2.1;margin-bottom:40px;">
+        Send us your profile, portfolio, or work links<br>
+        in any format you prefer.<br>
+        If there's a good fit, we'll reach out directly.
+      </p>
+      <a href="mailto:studiomow75@gmail.com?subject=[Collaboration] Name_Role" class="email-cta">
+        <span class="email-cta-label">EMAIL</span>
+        <span class="email-cta-addr">studiomow75@gmail.com</span>
+        <span class="email-cta-hint">Subject · [Collaboration] Name_Role</span>
+      </a>
+      <p style="margin-top:20px;font-size:12px;color:var(--text-mute);">All submissions are used for talent review only and will not be shared with third parties.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BUSINESS -->
+<section style="padding:var(--section-pad) 0;background:var(--bg);" id="business">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:380px 1fr;gap:80px;align-items:start;" class="biz-2col">
+      <div>
+        <div class="section-header" style="margin-bottom:28px;">
+          <div class="section-tag">BUSINESS</div>
+          <h2 class="section-title">We propose a<br>strategic partnership</h2>
+        </div>
+        <p style="font-size:14px;color:var(--text-sub);line-height:2.1;margin-bottom:36px;">
+          STUDIOMoW welcomes all forms of business collaboration —<br>
+          investment · co-production · distribution · OTT · IP licensing
+        </p>
+        <a href="mailto:studiomow75@gmail.com?subject=[Business] Company_ProposalType" class="email-cta" style="align-items:flex-start;">
+          <span class="email-cta-label">EMAIL</span>
+          <span class="email-cta-addr">studiomow75@gmail.com</span>
+          <span class="email-cta-hint">Subject · [Business] Company_ProposalType</span>
+        </a>
+      </div>
+      <div>
+        <div class="biz-list">
+          <div class="biz-list-item"><div class="biz-list-num">01</div><div><div class="biz-list-title">Investment</div><div class="biz-list-desc">Participation in genre film project investment.<br>We pursue a clear production structure and systematic risk management.</div></div></div>
+          <div class="biz-list-item"><div class="biz-list-num">02</div><div><div class="biz-list-title">Co-Production</div><div class="biz-list-desc">Co-production with domestic and international studios.<br>Open to co-developing overseas remakes of K-Horror IPs.</div></div></div>
+          <div class="biz-list-item"><div class="biz-list-num">03</div><div><div class="biz-list-title">Distribution</div><div class="biz-list-desc">Partnerships with domestic · international theater distributors · OTT platforms · overseas sales agents are welcome.</div></div></div>
+          <div class="biz-list-item"><div class="biz-list-num">04</div><div><div class="biz-list-title">MOU</div><div class="biz-list-desc">Seeking strategic partnerships in the entertainment industry.</div></div></div>
+          <div class="biz-list-item" style="border-bottom:none;"><div class="biz-list-num">05</div><div><div class="biz-list-title">Global Partners</div><div class="biz-list-desc">Looking for partners for international film festivals · international co-productions · global OTT pitching.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWS -->
+<section style="padding:var(--section-pad) 0;background:var(--surface1);" id="news">
+  <div class="container">
+    <div class="section-header"><div class="section-tag">NEWS</div><h2 class="section-title">Latest News</h2></div>
+    <div class="news-grid" id="newsGrid">
+      <div class="news-empty" id="newsEmpty">Coming soon.<br><span style="font-size:11px;opacity:0.5;margin-top:6px;display:block;">News can be added from the admin panel.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" style="padding:var(--section-pad) 0;background:var(--bg);border-top:1px solid var(--border);">
+  <div class="container">
+    <div class="section-tag" style="margin-bottom:48px;">CONTACT</div>
+    <div style="display:flex;gap:80px;align-items:center;margin-bottom:48px;">
+      <h2 style="flex:1;font-family:var(--font-heading);font-size:clamp(22px,2.6vw,34px);font-weight:700;line-height:1.7;letter-spacing:-0.02em;color:var(--text);margin:0;">
+        An unfamiliar sensation, a powerful story.<br>
+        Together with STUDIOMoW,<br>
+        a new genre begins.
+      </h2>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,8vw,96px);line-height:0.9;letter-spacing:-0.02em;margin-bottom:14px;">
+          <span style="color:var(--text);">STUDIO</span><span style="color:var(--red);">MoW</span>
+        </div>
+        <div style="font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:0.55em;color:var(--text-mute);">PREMIUM KOREAN GENRE CINEMA</div>
+      </div>
+    </div>
+    <div style="border-top:1px solid var(--border);padding-top:32px;display:flex;flex-direction:column;gap:0;">
+      <div style="display:flex;align-items:center;gap:28px;padding:18px 0;border-bottom:1px solid var(--border);">
+        <span style="font-family:var(--font-display);font-size:10px;letter-spacing:0.4em;color:var(--red);min-width:80px;">ADDRESS</span>
+        <span style="font-size:14px;color:var(--text-sub);">639 Eonju-ro, Gangnam-gu, Seoul, 1065 (Hansol Bldg)</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:28px;padding:18px 0;border-bottom:1px solid var(--border);">
+        <span style="font-family:var(--font-display);font-size:10px;letter-spacing:0.4em;color:var(--red);min-width:80px;">EMAIL</span>
+        <a href="mailto:studiomow75@gmail.com" style="font-size:14px;color:var(--text-sub);transition:color 0.2s;" onmouseover="this.style.color='var(--red-light)'" onmouseout="this.style.color='var(--text-sub)'">studiomow75@gmail.com</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-logo"><span class="logo-studio">STUDIO</span><span class="logo-mow">MoW</span></div>
+      <div class="footer-links">
+        <a href="#collaboration">Collaboration</a>
+        <a href="#business">Business</a>
+        <a href="#news">News</a>
+      </div>
+      <div class="footer-copy">© 2026 STUDIOMoW. All rights reserved.</div>
+    </div>
+  </div>
+  <div class="footer-legal">© 2026 STUDIOMoW | www.studiomow.co.kr</div>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+(function(){
+  var items=JSON.parse(localStorage.getItem('news_items')||'[]');
+  if(!items.length)return;
+  var grid=document.getElementById('newsGrid');
+  document.getElementById('newsEmpty').style.display='none';
+  items.slice(0,3).forEach(function(n){
+    var card=document.createElement('div');
+    card.className='news-card';
+    card.innerHTML='<div class="news-card-body"><div class="news-card-date">'+n.date+'</div><div class="news-card-title">'+n.title_en+'</div><div class="news-card-more">MORE →</div></div>';
+    grid.appendChild(card);
+  });
+})();
+
+(function(){
+  var canvas=document.getElementById('heroCanvas'),ctx=canvas.getContext('2d');
+  var W,H,particles=[],wisps=[],frame=0;
+  function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+  resize();window.addEventListener('resize',resize);
+  function P(){this.reset();}
+  P.prototype.reset=function(){this.x=Math.random()*W;this.y=Math.random()*H;this.r=80+Math.random()*200;this.vx=(Math.random()-0.5)*0.18;this.vy=-0.05-Math.random()*0.12;this.alpha=0.02+Math.random()*0.06;this.life=0;this.maxLife=300+Math.random()*400;this.red=Math.random()<0.15;};
+  P.prototype.update=function(){this.x+=this.vx;this.y+=this.vy;this.life++;if(this.life>this.maxLife||this.y<-this.r)this.reset();};
+  P.prototype.draw=function(){var a=this.alpha*Math.sin(this.life/this.maxLife*Math.PI);var g=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.r);g.addColorStop(0,this.red?'rgba(100,15,20,'+a+')':'rgba(30,28,25,'+a+')');g.addColorStop(1,'rgba(15,14,13,0)');ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();};
+  function W2(){this.reset();}
+  W2.prototype.reset=function(){this.x=Math.random()*W;this.y=H*0.4+Math.random()*H*0.6;this.pts=[];var n=6+Math.floor(Math.random()*6);for(var i=0;i<n;i++)this.pts.push({x:this.x+(Math.random()-0.5)*60,y:this.y-i*(20+Math.random()*30),vx:(Math.random()-0.5)*0.3,vy:-0.04-Math.random()*0.08});this.alpha=0.025+Math.random()*0.04;this.life=0;this.maxLife=500+Math.random()*500;this.w=1+Math.random()*2.5;};
+  W2.prototype.update=function(){this.life++;for(var i=0;i<this.pts.length;i++){this.pts[i].x+=this.pts[i].vx+Math.sin(frame*0.01+i)*0.15;this.pts[i].y+=this.pts[i].vy;}if(this.life>this.maxLife)this.reset();};
+  W2.prototype.draw=function(){if(this.pts.length<2)return;var a=this.alpha*Math.sin(this.life/this.maxLife*Math.PI);ctx.beginPath();ctx.moveTo(this.pts[0].x,this.pts[0].y);for(var i=1;i<this.pts.length;i++){var mx=(this.pts[i-1].x+this.pts[i].x)/2,my=(this.pts[i-1].y+this.pts[i].y)/2;ctx.quadraticCurveTo(this.pts[i-1].x,this.pts[i-1].y,mx,my);}ctx.strokeStyle='rgba(142,32,40,'+a+')';ctx.lineWidth=this.w;ctx.lineCap='round';ctx.stroke();};
+  var lt=0,la=0;
+  for(var i=0;i<28;i++){var p=new P();p.life=Math.random()*p.maxLife;particles.push(p);}
+  for(var j=0;j<8;j++){var w=new W2();w.life=Math.random()*w.maxLife;wisps.push(w);}
+  var imgs=[],il=0,ii=0,it=0,zs=1.06,zd=1;
+  ['https://images.unsplash.com/photo-1518709766631-a6a7f45921c3?w=1920&q=80','https://images.unsplash.com/photo-1604537529428-15bcbeecfe4d?w=1920&q=80','https://images.unsplash.com/photo-1535016120720-40c646be5580?w=1920&q=80','https://images.unsplash.com/photo-1547638375-ebf04735d792?w=1920&q=80'].forEach(function(s){var img=new Image();img.crossOrigin='anonymous';img.onload=function(){il++;};img.onerror=function(){il++;};img.src=s;imgs.push(img);});
+  var zs=1.06,zd=1;
+  function draw(){frame++;ctx.clearRect(0,0,W,H);if(il>0&&imgs[ii]&&imgs[ii].complete&&imgs[ii].naturalWidth){zs+=0.00008*zd;if(zs>1.12)zd=-1;if(zs<1.06)zd=1;var iw=imgs[ii].naturalWidth||W,ih=imgs[ii].naturalHeight||H,sc=Math.max(W/iw,H/ih)*zs,dw=iw*sc,dh=ih*sc,dx=(W-dw)/2,dy=(H-dh)/2;ctx.globalAlpha=0.55;ctx.filter='grayscale(40%) brightness(0.38)';ctx.drawImage(imgs[ii],dx,dy,dw,dh);ctx.filter='none';ctx.globalAlpha=1;it++;if(it>420){it=0;ii=(ii+1)%imgs.length;}}else{ctx.fillStyle='#0f0e0d';ctx.fillRect(0,0,W,H);}particles.forEach(function(p){p.update();p.draw();});wisps.forEach(function(w){w.update();w.draw();});lt--;if(lt<=0){lt=200+Math.random()*600;la=0.04+Math.random()*0.06;}if(la>0){ctx.fillStyle='rgba(180,160,140,'+la+')';ctx.fillRect(0,0,W,H);la-=0.008;if(la<0)la=0;}requestAnimationFrame(draw);}
+  draw();
+})();
+</script>
+</body>
+</html>

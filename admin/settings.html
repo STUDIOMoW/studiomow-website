@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>사이트 설정 | STUDIOMoW Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@300;400;500;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/main.css">
+</head>
+<body class="admin-body">
+
+<nav class="admin-nav">
+  <div class="admin-logo"><span class="logo-studio">STUDIO</span><span class="logo-mow">MoW</span> <span style="font-family: var(--font-heading); font-size:11px; color:var(--gray); margin-left:12px; letter-spacing:0.1em;">ADMIN</span></div>
+  <div class="admin-nav-links"><a href="../index.html" target="_blank">사이트 보기 ↗</a></div>
+  <button class="admin-logout" onclick="logout()">로그아웃</button>
+</nav>
+
+<div class="admin-layout">
+  <aside class="admin-sidebar">
+    <div class="admin-sidebar-section">메인</div>
+    <a href="index.html">📊 대시보드</a>
+    <a href="talent.html">👥 인재 지원 관리</a>
+    <a href="business.html">💼 비즈니스 제안 관리</a>
+    <div class="admin-sidebar-section">설정</div>
+    <a href="settings.html" class="active">⚙️ 사이트 설정</a>
+    <a href="password.html">🔑 비밀번호 변경</a>
+  </aside>
+
+  <main class="admin-main">
+    <div class="admin-page-title">사이트 설정</div>
+    <div class="admin-page-sub">홈페이지 주요 정보를 수정합니다</div>
+
+    <div id="settingSaved" class="alert alert-success" style="margin-bottom:20px; display:none;">✓ 저장되었습니다.</div>
+
+    <div class="admin-card" style="max-width:680px;">
+      <div class="admin-card-header">
+        <div class="admin-card-title">📞 연락처 정보</div>
+      </div>
+      <div class="admin-card-body">
+        <form class="mow-form" id="settingsForm" style="gap:16px;">
+          <div class="form-group">
+            <label class="form-label">대표 이름</label>
+            <input type="text" id="s_ceo" class="form-input" value="김 승 모">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">연락처 (Mobile)</label>
+              <input type="tel" id="s_phone" class="form-input" value="+82 10 4743 8882">
+            </div>
+            <div class="form-group">
+              <label class="form-label">이메일</label>
+              <input type="email" id="s_email" class="form-input" value="studiomow75@gmail.com">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">주소</label>
+            <input type="text" id="s_address" class="form-input" value="서울시 강남구 언주로 639, 1065호 (한솔빌딩)">
+          </div>
+
+          <div style="height:1px; background:var(--border); margin:8px 0;"></div>
+
+          <div class="form-group">
+            <label class="form-label">사이트 태그라인 (Hero 섹션)</label>
+            <input type="text" id="s_tagline" class="form-input" value="작지만 강한 장르 IP를 반복 생산하는 K-Horror 시스템을 구축합니다">
+          </div>
+          <div class="form-group">
+            <label class="form-label">모집 공고 공개 여부</label>
+            <select id="s_recruiting" class="form-select">
+              <option value="open" selected>모집 중 (공개)</option>
+              <option value="closed">모집 마감</option>
+            </select>
+          </div>
+
+          <div style="height:1px; background:var(--border); margin:8px 0;"></div>
+
+          <div style="padding:16px; background:rgba(192,57,43,0.08); border:1px solid rgba(192,57,43,0.2);">
+            <div style="font-size:12px; color:var(--gray); line-height:1.8;">
+              ℹ️ <strong style="color:var(--white)">개발자 안내</strong><br>
+              현재 설정은 localStorage에 저장되며, 실제 배포 시 서버 CMS 또는 환경변수로 연동하세요.<br>
+              이메일 발송 기능(승인 알림 등)은 EmailJS, NodeMailer, 또는 서버 API를 연동해야 합니다.<br>
+              승인 수신 이메일: <code style="color:var(--white)">studiomow75@gmail.com</code>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-submit">설정 저장</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Developer notes -->
+    <div class="admin-card" style="max-width:680px; margin-top:24px;">
+      <div class="admin-card-header">
+        <div class="admin-card-title">🛠 개발자 배포 가이드</div>
+      </div>
+      <div class="admin-card-body">
+        <div style="font-size:13px; color:var(--gray); line-height:2;">
+          <strong style="color:var(--white); display:block; margin-bottom:8px;">현재 구조 (정적 HTML)</strong>
+          이 홈페이지는 순수 HTML/CSS/JS로 구성된 정적 사이트입니다. 모든 폼 데이터는 방문자의 브라우저 localStorage에 저장됩니다.<br><br>
+          <strong style="color:var(--white); display:block; margin-bottom:8px;">프로덕션 배포 시 교체 필요 항목</strong>
+          1. <strong style="color:var(--white)">폼 백엔드</strong>: Formspree, EmailJS, 또는 직접 서버(Node.js/Python) 연동으로 이메일 발송<br>
+          2. <strong style="color:var(--white)">파일 업로드</strong>: AWS S3, Cloudflare R2, 또는 서버 스토리지 연동<br>
+          3. <strong style="color:var(--white)">관리자 인증</strong>: JWT + 서버 API 또는 Firebase Auth로 교체 (현재는 localStorage 기반 데모)<br>
+          4. <strong style="color:var(--white)">이메일 알림</strong>: 신규 접수 시 studiomow75@gmail.com으로 자동 발송 설정<br>
+          5. <strong style="color:var(--white)">호스팅</strong>: Netlify, Vercel, Cafe24, AWS S3+CloudFront 등 어디서든 배포 가능<br><br>
+          <strong style="color:var(--white); display:block; margin-bottom:8px;">빠른 이메일 연동 (Formspree)</strong>
+          <code style="background:rgba(255,255,255,0.05); padding:4px 8px; font-size:12px; color:var(--white);">action="https://formspree.io/f/YOUR_ID"</code>를 form 태그에 추가하면 무료로 이메일 수신 가능합니다.
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+if (sessionStorage.getItem('mow_admin') !== 'true') { window.location.href = 'login.html'; }
+function logout() { sessionStorage.clear(); window.location.href = 'login.html'; }
+
+// Load saved settings
+const saved = JSON.parse(localStorage.getItem('site_settings') || '{}');
+if (saved.s_ceo) document.getElementById('s_ceo').value = saved.s_ceo;
+if (saved.s_phone) document.getElementById('s_phone').value = saved.s_phone;
+if (saved.s_email) document.getElementById('s_email').value = saved.s_email;
+if (saved.s_address) document.getElementById('s_address').value = saved.s_address;
+if (saved.s_tagline) document.getElementById('s_tagline').value = saved.s_tagline;
+if (saved.s_recruiting) document.getElementById('s_recruiting').value = saved.s_recruiting;
+
+document.getElementById('settingsForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const data = {};
+  ['s_ceo','s_phone','s_email','s_address','s_tagline','s_recruiting'].forEach(id => {
+    data[id] = document.getElementById(id).value;
+  });
+  localStorage.setItem('site_settings', JSON.stringify(data));
+  document.getElementById('settingSaved').style.display = 'block';
+  setTimeout(() => { document.getElementById('settingSaved').style.display = 'none'; }, 3000);
+});
+</script>
+</body>
+</html>

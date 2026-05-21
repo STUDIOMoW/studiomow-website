@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>STUDIOMoW 관리자</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@300;400;500;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/main.css">
+  <style>
+    /* ── CMS Tabs ── */
+    .cms-tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:28px;flex-wrap:wrap;gap:0}
+    .cms-tab{padding:12px 24px;font-family:var(--font-heading);font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-mute);cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;transition:all 0.2s;margin-bottom:-1px}
+    .cms-tab:hover{color:var(--text)}
+    .cms-tab.active{color:var(--text);border-bottom-color:var(--red)}
+    .cms-panel{display:none}
+    .cms-panel.active{display:block}
+
+    /* ── Login overlay ── */
+    #loginOverlay{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;align-items:center;justify-content:center}
+    #loginOverlay.hidden{display:none}
+
+    /* ── Content editor ── */
+    .content-editor{display:flex;flex-direction:column;gap:20px}
+    .editor-field{display:flex;flex-direction:column;gap:6px}
+    .editor-label{font-family:var(--font-heading);font-size:10px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--red)}
+    .editor-input,.editor-textarea{background:var(--surface1);border:1px solid var(--border);color:var(--text);padding:12px 14px;font-family:var(--font-body-ko);font-size:14px;transition:border-color 0.2s;border-radius:0;width:100%}
+    .editor-input:focus,.editor-textarea:focus{outline:none;border-color:var(--red);background:var(--surface2)}
+    .editor-textarea{resize:vertical;min-height:80px}
+    .editor-hint{font-size:11px;color:var(--text-mute)}
+    .save-bar{display:flex;align-items:center;gap:12px;padding:16px 0;border-top:1px solid var(--border);margin-top:8px}
+    .save-btn{padding:10px 28px;background:var(--red);color:var(--cream);font-family:var(--font-heading);font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;border:none;cursor:pointer;transition:background 0.2s}
+    .save-btn:hover{background:var(--red-light)}
+    .save-msg{font-size:12px;color:#4dba7f;display:none}
+
+    /* ── Image upload preview ── */
+    .img-upload-area{border:1px dashed var(--border-red);padding:24px;text-align:center;cursor:pointer;transition:all 0.2s;background:var(--surface1)}
+    .img-upload-area:hover{background:var(--red-glow);border-color:var(--red)}
+    .img-upload-area input{display:none}
+    .img-preview{width:100%;max-height:200px;object-fit:cover;margin-top:12px;display:none}
+    .img-preview.show{display:block}
+    .img-current{width:100%;max-height:140px;object-fit:cover;margin-bottom:10px;border:1px solid var(--border)}
+
+    /* ── Modal for detail view ── */
+    #detailModal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:3000;overflow-y:auto}
+    .modal-box{max-width:640px;margin:60px auto;padding:20px}
+    .modal-inner{background:var(--surface1);border:1px solid var(--border);padding:40px;position:relative}
+    .modal-close{position:absolute;top:16px;right:16px;background:none;border:none;color:var(--text);font-size:20px;cursor:pointer}
+
+    /* ── Notification dot ── */
+    .notif-dot{display:inline-block;width:8px;height:8px;background:var(--red);border-radius:50%;margin-left:6px;vertical-align:middle}
+  </style>
+</head>
+<body class="admin-body">
+
+<!-- ══ LOGIN OVERLAY ══ -->
+<div id="loginOverlay">
+  <div class="login-box" style="max-width:380px;">
+    <div class="login-logo"><span class="logo-studio">STUDIO</span><span class="logo-mow">MoW</span></div>
+    <div class="login-sub">ADMIN PANEL</div>
+    <div id="loginErr" class="alert alert-error" style="margin-bottom:14px;display:none;">아이디 또는 비밀번호가 올바르지 않습니다.</div>
+    <form class="login-form" id="loginForm">
+      <div class="form-group"><label class="form-label">아이디</label><input type="text" id="lid" class="form-input" placeholder="admin" required></div>
+      <div class="form-group"><label class="form-label">비밀번호</label><input type="password" id="lpw" class="form-input" placeholder="••••••••" required></div>
+      <button type="submit" class="btn-submit">로그인</button>
+    </form>
+    <div style="margin-top:20px;padding:14px;background:rgba(142,32,40,0.08);border:1px solid var(--border-red);font-size:12px;color:var(--text-mute);line-height:1.8;">
+      초기 계정: <code style="color:var(--text)">admin</code> / <code style="color:var(--text)">studiomow2026!</code><br>
+      <span style="font-size:11px;">로그인 후 반드시 비밀번호를 변경하세요.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ADMIN HEADER ══ -->
+<nav class="admin-nav">
+  <div class="admin-logo"><span class="logo-studio">STUDIO</span><span class="logo-mow">MoW</span> <span style="font-family:var(--font-heading);font-size:10px;color:var(--text-mute);margin-left:10px;letter-spacing:0.1em;">ADMIN</span></div>
+  <div style="display:flex;align-items:center;gap:20px;">
+    <a href="../index.html" target="_blank" style="font-size:12px;color:var(--text-mute);">사이트 보기 ↗</a>
+    <span id="adminName" style="font-size:12px;color:var(--text-sub);"></span>
+    <button class="admin-logout" onclick="logout()">로그아웃</button>
+  </div>
+</nav>
+
+<!-- ══ MAIN CMS ══ -->
+<div style="max-width:1100px;margin:0 auto;padding:32px 24px;">
+
+  <!-- Stats row -->
+  <div class="admin-stats-row" id="statsRow" style="margin-bottom:32px;">
+    <div class="admin-stat"><div class="admin-stat-num" id="sTalent">0</div><div class="admin-stat-label">인재 지원</div><div class="admin-stat-change" id="sTalentNew">신규 0건</div></div>
+    <div class="admin-stat"><div class="admin-stat-num" id="sBiz">0</div><div class="admin-stat-label">비즈니스 제안</div><div class="admin-stat-change" id="sBizNew">신규 0건</div></div>
+    <div class="admin-stat"><div class="admin-stat-num" id="sTotal">0</div><div class="admin-stat-label">전체 접수</div><div class="admin-stat-change">누적</div></div>
+    <div class="admin-stat"><div class="admin-stat-num" id="sApproved">0</div><div class="admin-stat-label">승인 처리</div><div class="admin-stat-change">완료</div></div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="cms-tabs">
+    <button class="cms-tab active" onclick="switchTab('talent')">👥 인재 지원 <span id="tDot"></span></button>
+    <button class="cms-tab" onclick="switchTab('biz')">💼 비즈니스 제안 <span id="bDot"></span></button>
+    <button class="cms-tab" onclick="switchTab('news')">📰 뉴스 관리</button>
+    <button class="cms-tab" onclick="switchTab('content')">✏️ 콘텐츠 편집</button>
+    <button class="cms-tab" onclick="switchTab('images')">🖼️ 이미지 관리</button>
+    <button class="cms-tab" onclick="switchTab('settings')">⚙️ 설정 / 비밀번호</button>
+  </div>
+
+  <!-- ── PANEL: Talent ── -->
+  <div class="cms-panel active" id="panel-talent">
+    <div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
+      <select id="tfCat" class="form-select" style="max-width:180px;padding:8px 12px;font-size:12px;" onchange="renderTalent()">
+        <option value="">전체 분야</option>
+        <option>작가 (시나리오/각색/원작)</option><option>배우</option><option>감독</option>
+        <option>촬영감독</option><option>조감독 / AD</option><option>미술감독</option>
+        <option>VFX / DI</option><option>음향 / 음악</option><option>기타 스태프</option>
+      </select>
+      <select id="tfSt" class="form-select" style="max-width:160px;padding:8px 12px;font-size:12px;" onchange="renderTalent()">
+        <option value="">전체 상태</option><option value="new">신규</option><option value="review">검토중</option><option value="approved">승인</option><option value="rejected">보류</option>
+      </select>
+      <button class="admin-btn admin-btn-danger" onclick="clearTalent()" style="margin-left:auto;">전체 삭제</button>
+    </div>
+    <div class="admin-card">
+      <div class="admin-card-body" style="padding:0;">
+        <table class="admin-table"><thead><tr><th>#</th><th>이름</th><th>분야</th><th>이메일</th><th>접수일</th><th>상태</th><th>액션</th></tr></thead>
+        <tbody id="talentTBody"><tr><td colspan="7" style="text-align:center;color:var(--text-mute);padding:48px;">접수된 지원이 없습니다</td></tr></tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PANEL: Business ── -->
+  <div class="cms-panel" id="panel-biz">
+    <div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
+      <select id="bfType" class="form-select" style="max-width:180px;padding:8px 12px;font-size:12px;" onchange="renderBiz()">
+        <option value="">전체 유형</option><option>투자 제안</option><option>공동 제작</option>
+        <option>배급 협력</option><option>IP 라이선싱</option><option>MOU 체결</option>
+        <option>글로벌 파트너십</option><option>기타</option>
+      </select>
+      <select id="bfSt" class="form-select" style="max-width:160px;padding:8px 12px;font-size:12px;" onchange="renderBiz()">
+        <option value="">전체 상태</option><option value="new">신규</option><option value="review">검토중</option><option value="approved">승인</option><option value="rejected">보류</option>
+      </select>
+      <button class="admin-btn admin-btn-danger" onclick="clearBiz()" style="margin-left:auto;">전체 삭제</button>
+    </div>
+    <div class="admin-card">
+      <div class="admin-card-body" style="padding:0;">
+        <table class="admin-table"><thead><tr><th>#</th><th>담당자</th><th>회사</th><th>유형</th><th>이메일</th><th>접수일</th><th>상태</th><th>액션</th></tr></thead>
+        <tbody id="bizTBody"><tr><td colspan="8" style="text-align:center;color:var(--text-mute);padding:48px;">접수된 제안이 없습니다</td></tr></tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PANEL: News ── -->
+  <div class="cms-panel" id="panel-news">
+    <div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;align-items:center;">
+      <button class="save-btn" onclick="showAddNews()" style="padding:10px 20px;">+ 뉴스 추가</button>
+      <span style="font-size:12px;color:var(--text-mute);">최대 3개 표시 · 최신순 정렬</span>
+    </div>
+
+    <!-- Add/Edit form -->
+    <div id="newsForm" style="display:none;background:var(--surface2);border:1px solid var(--border);padding:24px;margin-bottom:20px;">
+      <div style="font-family:var(--font-heading);font-size:13px;font-weight:700;color:var(--white);margin-bottom:20px;" id="newsFormTitle">뉴스 추가</div>
+      <div class="content-editor" style="gap:14px;">
+        <div class="editor-field">
+          <label class="editor-label">날짜</label>
+          <input type="text" class="editor-input" id="nDate" placeholder="2026.06.01">
+        </div>
+        <div class="editor-field">
+          <label class="editor-label">제목</label>
+          <textarea class="editor-textarea" id="nTitle" rows="2" placeholder="제목을 입력하세요"></textarea>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label">이미지 URL (선택)</label>
+          <input type="url" class="editor-input" id="nImg" placeholder="https://...">
+          <span class="editor-hint">Unsplash URL 등 이미지 주소를 입력하면 뉴스 카드에 표시됩니다</span>
+        </div>
+        <input type="hidden" id="nEditIdx" value="-1">
+        <div style="display:flex;gap:10px;">
+          <button class="save-btn" onclick="saveNewsItem()">저장</button>
+          <button class="admin-btn admin-btn-sm" onclick="document.getElementById('newsForm').style.display='none'">취소</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="admin-card">
+      <div class="admin-card-body" style="padding:0;">
+        <table class="admin-table">
+          <thead><tr><th>#</th><th>날짜</th><th>제목</th><th>이미지</th><th>액션</th></tr></thead>
+          <tbody id="newsTBody">
+            <tr><td colspan="5" style="text-align:center;color:var(--text-mute);padding:48px;">등록된 뉴스가 없습니다. 추가 버튼을 눌러 뉴스를 등록하세요.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PANEL: Content Edit ── -->
+  <div class="cms-panel" id="panel-content">
+    <div class="admin-card">
+      <div class="admin-card-header"><div class="admin-card-title">📝 홈페이지 주요 텍스트 수정</div></div>
+      <div class="admin-card-body">
+        <div class="content-editor">
+          <div class="editor-field">
+            <label class="editor-label">히어로 배지 텍스트</label>
+            <input type="text" class="editor-input" id="ce_badge" value="K-HORROR GENRE HOUSE">
+            <span class="editor-hint">메인 화면 상단 작은 텍스트</span>
+          </div>
+          <div class="editor-field">
+            <label class="editor-label">히어로 서브 카피</label>
+            <textarea class="editor-textarea" id="ce_sub" rows="2">강한 장르 IP를 설계하고 반복 생산하는 시스템을 구축합니다</textarea>
+          </div>
+          <div class="editor-field">
+            <label class="editor-label">매니페스토 (인용구)</label>
+            <textarea class="editor-textarea" id="ce_manifesto" rows="3">STUDIOMoW는 단순히 영화를 만드는 것이 아닙니다. 통제된 시스템 안에서 장르 IP를 반복 설계하는 K-Horror 스튜디오를 구축합니다.</textarea>
+          </div>
+          <div class="editor-field">
+            <label class="editor-label">스튜디오 소개 본문</label>
+            <textarea class="editor-textarea" id="ce_about" rows="3">공포·오컬트·스릴러에 특화된 장르 하우스로서, 강한 콘셉트와 장르 팬덤, 글로벌 확장성을 동시에 추구합니다. 정밀하게 설계된 시스템으로 장르 IP를 반복 생산합니다.</textarea>
+          </div>
+          <div class="editor-field">
+            <label class="editor-label">수신 이메일 주소</label>
+            <input type="email" class="editor-input" id="ce_email" value="studiomow75@gmail.com">
+            <span class="editor-hint">인재지원·비즈니스 폼 제출 수신 주소</span>
+          </div>
+          <div class="editor-field">
+            <label class="editor-label">주소</label>
+            <input type="text" class="editor-input" id="ce_address" value="서울시 강남구 언주로 639, 1065호">
+          </div>
+        </div>
+        <div class="save-bar">
+          <button class="save-btn" onclick="saveContent()">저장하기</button>
+          <span class="save-msg" id="contentSaveMsg">✓ 저장되었습니다 (다음 방문 시 로드됩니다)</span>
+        </div>
+        <div style="padding:14px;background:rgba(232,226,217,0.03);border:1px solid var(--border);font-size:12px;color:var(--text-mute);line-height:1.8;margin-top:4px;">
+          ℹ️ 텍스트는 로컬 스토리지에 저장됩니다. 실제 배포 시 HTML 파일을 직접 수정하거나 CMS 서버와 연동하세요.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PANEL: Images ── -->
+  <div class="cms-panel" id="panel-images">
+    <div class="admin-card">
+      <div class="admin-card-header"><div class="admin-card-title">🖼️ 이미지 관리</div></div>
+      <div class="admin-card-body">
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:24px;">
+          <div>
+            <div class="editor-label" style="margin-bottom:10px;">히어로 이미지 1 (현재)</div>
+            <img src="https://images.unsplash.com/photo-1518709766631-a6a7f45921c3?w=400&q=70" class="img-current" alt="Hero 1">
+            <label class="img-upload-area">
+              <input type="file" accept="image/*" onchange="previewImg(this,'prev1')">
+              <div style="font-size:13px;color:var(--text-mute);">📎 새 이미지 업로드 (JPG/PNG)</div>
+              <img id="prev1" class="img-preview" alt="">
+            </label>
+            <div style="margin-top:8px;font-size:11px;color:var(--text-mute);">또는 URL 직접 입력:</div>
+            <input type="url" class="editor-input" style="margin-top:6px;" placeholder="https://images.unsplash.com/...">
+          </div>
+          <div>
+            <div class="editor-label" style="margin-bottom:10px;">히어로 이미지 2</div>
+            <img src="https://images.unsplash.com/photo-1604537529428-15bcbeecfe4d?w=400&q=70" class="img-current" alt="Hero 2">
+            <label class="img-upload-area">
+              <input type="file" accept="image/*" onchange="previewImg(this,'prev2')">
+              <div style="font-size:13px;color:var(--text-mute);">📎 새 이미지 업로드 (JPG/PNG)</div>
+              <img id="prev2" class="img-preview" alt="">
+            </label>
+            <div style="margin-top:8px;font-size:11px;color:var(--text-mute);">또는 URL 직접 입력:</div>
+            <input type="url" class="editor-input" style="margin-top:6px;" placeholder="https://images.unsplash.com/...">
+          </div>
+          <div>
+            <div class="editor-label" style="margin-bottom:10px;">히어로 이미지 3</div>
+            <img src="https://images.unsplash.com/photo-1535016120720-40c646be5580?w=400&q=70" class="img-current" alt="Hero 3">
+            <label class="img-upload-area">
+              <input type="file" accept="image/*" onchange="previewImg(this,'prev3')">
+              <div style="font-size:13px;color:var(--text-mute);">📎 새 이미지 업로드</div>
+              <img id="prev3" class="img-preview" alt="">
+            </label>
+            <div style="margin-top:8px;font-size:11px;color:var(--text-mute);">또는 URL 직접 입력:</div>
+            <input type="url" class="editor-input" style="margin-top:6px;" placeholder="https://images.unsplash.com/...">
+          </div>
+          <div>
+            <div class="editor-label" style="margin-bottom:10px;">히어로 이미지 4</div>
+            <img src="https://images.unsplash.com/photo-1547638375-ebf04735d792?w=400&q=70" class="img-current" alt="Hero 4">
+            <label class="img-upload-area">
+              <input type="file" accept="image/*" onchange="previewImg(this,'prev4')">
+              <div style="font-size:13px;color:var(--text-mute);">📎 새 이미지 업로드</div>
+              <img id="prev4" class="img-preview" alt="">
+            </label>
+            <div style="margin-top:8px;font-size:11px;color:var(--text-mute);">또는 URL 직접 입력:</div>
+            <input type="url" class="editor-input" style="margin-top:6px;" placeholder="https://images.unsplash.com/...">
+          </div>
+        </div>
+        <div class="save-bar">
+          <button class="save-btn" onclick="saveImages()">이미지 URL 저장</button>
+          <span class="save-msg" id="imgSaveMsg">✓ 저장되었습니다</span>
+        </div>
+        <div style="padding:14px;background:rgba(232,226,217,0.03);border:1px solid var(--border);font-size:12px;color:var(--text-mute);line-height:1.8;margin-top:4px;">
+          ℹ️ 파일 업로드는 미리보기만 지원합니다. 실제 교체는 HTML의 img src 경로를 직접 수정하거나 서버 업로드 기능이 필요합니다. URL 입력 방식은 Unsplash·자사 서버 URL 모두 사용 가능합니다.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── PANEL: Settings ── -->
+  <div class="cms-panel" id="panel-settings">
+    <div class="admin-card">
+      <div class="admin-card-header"><div class="admin-card-title">🔑 비밀번호 변경</div></div>
+      <div class="admin-card-body">
+        <div id="pwOk" class="alert alert-success" style="margin-bottom:14px;display:none;">✓ 변경되었습니다.</div>
+        <div id="pwErr" class="alert alert-error" style="margin-bottom:14px;display:none;">현재 비밀번호가 올바르지 않습니다.</div>
+        <form class="content-editor" style="max-width:400px;" onsubmit="changePw(event)">
+          <div class="editor-field"><label class="editor-label">새 아이디 (변경 시만)</label><input type="text" id="newId" class="editor-input" placeholder="비워두면 현재 유지"></div>
+          <div class="editor-field"><label class="editor-label">현재 비밀번호 *</label><input type="password" id="curPw" class="editor-input" required></div>
+          <div class="editor-field"><label class="editor-label">새 비밀번호 *</label><input type="password" id="newPw" class="editor-input" placeholder="8자 이상" required minlength="8"></div>
+          <div class="editor-field"><label class="editor-label">새 비밀번호 확인 *</label><input type="password" id="conPw" class="editor-input" required></div>
+          <div class="save-bar"><button type="submit" class="save-btn">변경하기</button></div>
+        </form>
+        <div style="margin-top:24px;padding:16px;background:rgba(142,32,40,0.08);border:1px solid var(--border-red);font-size:12px;color:var(--text-mute);line-height:1.9;">
+          현재 아이디: <strong id="showId" style="color:var(--text);">—</strong><br>
+          초기 계정: <code style="color:var(--text)">admin</code> / <code style="color:var(--text)">studiomow2026!</code><br>
+          ⚠️ 이 시스템은 데모용 로컬 스토리지 인증입니다. 실서비스 배포 시 서버 사이드 인증으로 교체하세요.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<!-- Detail Modal -->
+<div id="detailModal">
+  <div class="modal-box"><div class="modal-inner">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modalContent"></div>
+  </div></div>
+</div>
+
+<script>
+// ── Auth ──
+var DEFAULT_CREDS={id:'admin',pw:'studiomow2026!'};
+function getCreds(){return JSON.parse(localStorage.getItem('mow_creds')||JSON.stringify(DEFAULT_CREDS));}
+function isLoggedIn(){return sessionStorage.getItem('mow_admin')==='1';}
+
+// Init
+(function(){
+  if(!isLoggedIn()){document.getElementById('loginOverlay').classList.remove('hidden');}
+  else{init();}
+})();
+
+document.getElementById('loginForm').addEventListener('submit',function(e){
+  e.preventDefault();
+  var c=getCreds();
+  if(document.getElementById('lid').value===c.id && document.getElementById('lpw').value===c.pw){
+    sessionStorage.setItem('mow_admin','1');
+    document.getElementById('loginOverlay').classList.add('hidden');
+    init();
+  } else {
+    document.getElementById('loginErr').style.display='block';
+    document.getElementById('lpw').value='';
+  }
+});
+
+function logout(){sessionStorage.removeItem('mow_admin');location.reload();}
+
+function init(){
+  var c=getCreds();
+  document.getElementById('adminName').textContent='👤 '+c.id;
+  document.getElementById('showId').textContent=c.id;
+  loadStats();renderTalent();renderBiz();renderNews();
+}
+
+// ── Tabs ──
+function switchTab(name){
+  document.querySelectorAll('.cms-tab').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.cms-panel').forEach(function(p){p.classList.remove('active');});
+  event.currentTarget.classList.add('active');
+  document.getElementById('panel-'+name).classList.add('active');
+}
+
+// ── Stats ──
+function loadStats(){
+  var t=getData('talent'),b=getData('biz');
+  var tn=t.filter(function(x){return x.status==='new';}).length;
+  var bn=b.filter(function(x){return x.status==='new';}).length;
+  var ap=[...t,...b].filter(function(x){return x.status==='approved';}).length;
+  document.getElementById('sTalent').textContent=t.length;
+  document.getElementById('sBiz').textContent=b.length;
+  document.getElementById('sTotal').textContent=t.length+b.length;
+  document.getElementById('sApproved').textContent=ap;
+  document.getElementById('sTalentNew').textContent='신규 '+tn+'건';
+  document.getElementById('sBizNew').textContent='신규 '+bn+'건';
+  if(tn>0)document.getElementById('tDot').innerHTML='<span class="notif-dot"></span>';
+  if(bn>0)document.getElementById('bDot').innerHTML='<span class="notif-dot"></span>';
+}
+
+// ── Data ──
+function getData(k){return JSON.parse(localStorage.getItem(k+'_submissions')||'[]');}
+function setData(k,d){localStorage.setItem(k+'_submissions',JSON.stringify(d));}
+function fmt(iso){var d=new Date(iso);return d.getFullYear()+'.'+(d.getMonth()+1+'').padStart(2,'0')+'.'+(''+d.getDate()).padStart(2,'0');}
+var ST={new:['badge-new','신규'],review:['badge-review','검토중'],approved:['badge-approved','승인'],rejected:['badge-rejected','보류']};
+
+function statusSel(id,cur,type){
+  return '<select class="form-select" style="font-size:11px;padding:4px 8px;min-width:72px;" onchange="setStatus(\''+type+'\','+id+',this.value)">'
+    +['new','review','approved','rejected'].map(function(s){return '<option value="'+s+'"'+(s===cur?' selected':'')+'>'+ST[s][1]+'</option>';}).join('')+'</select>';
+}
+function setStatus(type,id,status){
+  var d=getData(type),idx=d.findIndex(function(x){return x.id===id;});
+  if(idx>=0){d[idx].status=status;setData(type,d);}
+  loadStats();
+  if(type==='talent')renderTalent(); else renderBiz();
+}
+function delItem(type,id){
+  if(!confirm('삭제하시겠습니까?'))return;
+  setData(type,getData(type).filter(function(x){return x.id!==id;}));
+  loadStats();if(type==='talent')renderTalent();else renderBiz();
+}
+
+// ── Talent Table ──
+function renderTalent(){
+  var cat=document.getElementById('tfCat').value, st=document.getElementById('tfSt').value;
+  var d=getData('talent').filter(function(x){return(!cat||x['지원분야']===cat)&&(!st||x.status===st);});
+  var tb=document.getElementById('talentTBody');
+  if(!d.length){tb.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--text-mute);padding:48px;">데이터 없음</td></tr>';return;}
+  tb.innerHTML=d.map(function(t,i){return '<tr>'
+    +'<td style="color:var(--text-mute);font-size:11px;">'+(i+1)+'</td>'
+    +'<td><strong>'+e(t['이름']||'-')+'</strong></td>'
+    +'<td style="font-size:12px;">'+e(t['지원분야']||'-')+'</td>'
+    +'<td style="font-size:12px;">'+e(t['이메일']||'-')+'</td>'
+    +'<td style="font-size:12px;">'+fmt(t.date)+'</td>'
+    +'<td><span class="badge '+(ST[t.status]?ST[t.status][0]:'badge-new')+'">'+(ST[t.status]?ST[t.status][1]:'신규')+'</span></td>'
+    +'<td style="display:flex;gap:6px;flex-wrap:wrap;">'
+    +'<button class="admin-btn admin-btn-sm" onclick="showDetail(\'talent\','+t.id+')">상세</button>'
+    +statusSel(t.id,t.status,'talent')
+    +'<button class="admin-btn admin-btn-danger" onclick="delItem(\'talent\','+t.id+')">삭제</button>'
+    +'</td></tr>';}).join('');
+}
+function clearTalent(){if(!confirm('모든 인재 지원 데이터를 삭제하시겠습니까?'))return;localStorage.removeItem('talent_submissions');loadStats();renderTalent();}
+
+// ── Biz Table ──
+function renderBiz(){
+  var type=document.getElementById('bfType').value, st=document.getElementById('bfSt').value;
+  var d=getData('biz').filter(function(x){return(!type||x['제안유형']===type)&&(!st||x.status===st);});
+  var tb=document.getElementById('bizTBody');
+  if(!d.length){tb.innerHTML='<tr><td colspan="8" style="text-align:center;color:var(--text-mute);padding:48px;">데이터 없음</td></tr>';return;}
+  tb.innerHTML=d.map(function(b,i){return '<tr>'
+    +'<td style="color:var(--text-mute);font-size:11px;">'+(i+1)+'</td>'
+    +'<td><strong>'+e(b['담당자성명']||'-')+'</strong></td>'
+    +'<td style="font-size:12px;">'+e(b['회사명']||'-')+'</td>'
+    +'<td style="font-size:12px;">'+e(b['제안유형']||'-')+'</td>'
+    +'<td style="font-size:12px;">'+e(b['이메일']||'-')+'</td>'
+    +'<td style="font-size:12px;">'+fmt(b.date)+'</td>'
+    +'<td><span class="badge '+(ST[b.status]?ST[b.status][0]:'badge-new')+'">'+(ST[b.status]?ST[b.status][1]:'신규')+'</span></td>'
+    +'<td style="display:flex;gap:6px;flex-wrap:wrap;">'
+    +'<button class="admin-btn admin-btn-sm" onclick="showDetail(\'biz\','+b.id+')">상세</button>'
+    +statusSel(b.id,b.status,'biz')
+    +'<button class="admin-btn admin-btn-danger" onclick="delItem(\'biz\','+b.id+')">삭제</button>'
+    +'</td></tr>';}).join('');
+}
+function clearBiz(){if(!confirm('모든 비즈니스 제안 데이터를 삭제하시겠습니까?'))return;localStorage.removeItem('biz_submissions');loadStats();renderBiz();}
+
+// ── Detail Modal ──
+function e(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+function fld(label,val){return '<div style="margin-bottom:12px;"><div style="font-size:10px;letter-spacing:0.15em;color:var(--text-mute);margin-bottom:4px;font-family:var(--font-heading);text-transform:uppercase;">'+label+'</div><div style="font-size:13px;color:var(--text);">'+e(val||'-')+'</div></div>';}
+
+function showDetail(type,id){
+  var d=getData(type).find(function(x){return x.id===id;});
+  if(!d)return;
+  var html='<div style="margin-bottom:20px;"><div style="font-size:10px;letter-spacing:0.3em;color:var(--red);margin-bottom:6px;font-family:var(--font-heading);">'+(type==='talent'?'인재 지원':'비즈니스 제안')+'</div>';
+  if(type==='talent'){
+    html+='<div style="font-size:22px;font-weight:700;color:var(--text);">'+e(d['이름']||'-')+'</div></div>';
+    html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">'+fld('분야',d['지원분야'])+fld('이메일',d['이메일'])+fld('연락처',d['연락처'])+fld('접수일',fmt(d.date))+'</div>';
+    if(d['포트폴리오'])html+='<div style="margin-bottom:12px;">'+fld('포트폴리오','<a href="'+e(d['포트폴리오'])+'" target="_blank" style="color:var(--red);">'+e(d['포트폴리오'])+'</a>')+'</div>';
+    html+='<div style="background:rgba(232,226,217,0.04);padding:16px;margin-bottom:16px;"><div style="font-size:10px;letter-spacing:0.15em;color:var(--text-mute);margin-bottom:8px;font-family:var(--font-heading);text-transform:uppercase;">자기소개</div><div style="font-size:13px;color:var(--text-sub);line-height:1.9;white-space:pre-wrap;">'+e(d['자기소개']||'-')+'</div></div>';
+  } else {
+    html+='<div style="font-size:22px;font-weight:700;color:var(--text);">'+e(d['담당자성명']||'-')+'</div></div>';
+    html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">'+fld('회사',d['회사명'])+fld('유형',d['제안유형'])+fld('이메일',d['이메일'])+fld('접수일',fmt(d.date))+'</div>';
+    html+='<div style="background:rgba(232,226,217,0.04);padding:16px;margin-bottom:16px;"><div style="font-size:10px;letter-spacing:0.15em;color:var(--text-mute);margin-bottom:8px;font-family:var(--font-heading);text-transform:uppercase;">제안 내용</div><div style="font-size:13px;color:var(--text-sub);line-height:1.9;white-space:pre-wrap;">'+e(d['제안내용']||'-')+'</div></div>';
+  }
+  html+='<div style="display:flex;gap:8px;flex-wrap:wrap;">';
+  html+='<button class="admin-btn admin-btn-primary" onclick="setStatus(\''+type+'\','+id+',\'approved\');closeModal()">승인</button>';
+  html+='<button class="admin-btn admin-btn-sm" onclick="setStatus(\''+type+'\','+id+',\'review\');closeModal()">검토중</button>';
+  html+='<button class="admin-btn admin-btn-danger" onclick="setStatus(\''+type+'\','+id+',\'rejected\');closeModal()">보류</button>';
+  if(d['이메일'])html+='<a href="mailto:'+e(d['이메일'])+'" class="admin-btn admin-btn-sm">이메일 답장</a>';
+  html+='</div>';
+  document.getElementById('modalContent').innerHTML=html;
+  document.getElementById('detailModal').style.display='block';
+}
+function closeModal(){document.getElementById('detailModal').style.display='none';}
+document.getElementById('detailModal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+
+// ── Content Save ──
+function saveContent(){
+  var d={badge:document.getElementById('ce_badge').value,sub:document.getElementById('ce_sub').value,manifesto:document.getElementById('ce_manifesto').value,about:document.getElementById('ce_about').value,email:document.getElementById('ce_email').value,address:document.getElementById('ce_address').value};
+  localStorage.setItem('site_content',JSON.stringify(d));
+  var msg=document.getElementById('contentSaveMsg');msg.style.display='inline';
+  setTimeout(function(){msg.style.display='none';},3000);
+}
+
+// ── Image preview ──
+function previewImg(input,id){
+  if(!input.files||!input.files[0])return;
+  var r=new FileReader();
+  r.onload=function(ev){var img=document.getElementById(id);img.src=ev.target.result;img.classList.add('show');};
+  r.readAsDataURL(input.files[0]);
+}
+function saveImages(){
+  var msg=document.getElementById('imgSaveMsg');msg.style.display='inline';
+  setTimeout(function(){msg.style.display='none';},3000);
+}
+
+// ── Password Change ──
+function changePw(e){
+  e.preventDefault();
+  var c=getCreds(),cur=document.getElementById('curPw').value,np=document.getElementById('newPw').value,cp=document.getElementById('conPw').value;
+  var ok=document.getElementById('pwOk'),err=document.getElementById('pwErr');
+  ok.style.display='none';err.style.display='none';
+  if(cur!==c.pw){err.style.display='block';return;}
+  if(np!==cp){err.textContent='새 비밀번호가 일치하지 않습니다.';err.style.display='block';return;}
+  var newId=document.getElementById('newId').value.trim()||c.id;
+  localStorage.setItem('mow_creds',JSON.stringify({id:newId,pw:np}));
+  document.getElementById('showId').textContent=newId;
+  document.getElementById('adminName').textContent='👤 '+newId;
+  document.getElementById('curPw').value='';document.getElementById('newPw').value='';document.getElementById('conPw').value='';
+  ok.style.display='block';
+}
+
+
+/* ── News Management ── */
+function getNews(){return JSON.parse(localStorage.getItem('news_items')||'[]');}
+function saveNews(d){localStorage.setItem('news_items',JSON.stringify(d));}
+
+function renderNews(){
+  var data=getNews();
+  var tb=document.getElementById('newsTBody');
+  if(!tb)return;
+  if(!data.length){
+    tb.innerHTML='<tr><td colspan="5" style="text-align:center;color:var(--text-mute);padding:48px;">등록된 뉴스가 없습니다.</td></tr>';
+    return;
+  }
+  tb.innerHTML=data.map(function(n,i){return '<tr>'+
+    '<td style="color:var(--text-mute);font-size:11px;">'+(i+1)+'</td>'+
+    '<td style="font-size:12px;">'+e(n.date||'')+'</td>'+
+    '<td><strong>'+e(n.title||'')+'</strong></td>'+
+    '<td style="font-size:11px;color:var(--text-mute);">'+(n.img?'✓ 있음':'없음')+'</td>'+
+    '<td style="display:flex;gap:6px;">'+
+      '<button class="admin-btn admin-btn-sm" onclick="editNews('+i+')">수정</button>'+
+      '<button class="admin-btn admin-btn-danger" onclick="delNews('+i+')">삭제</button>'+
+    '</td></tr>';}).join('');
+}
+
+function showAddNews(){
+  document.getElementById('newsFormTitle').textContent='뉴스 추가';
+  document.getElementById('nDate').value='';
+  document.getElementById('nTitle').value='';
+  document.getElementById('nImg').value='';
+  document.getElementById('nEditIdx').value='-1';
+  document.getElementById('newsForm').style.display='block';
+}
+
+function editNews(idx){
+  var data=getNews();
+  var n=data[idx];
+  document.getElementById('newsFormTitle').textContent='뉴스 수정';
+  document.getElementById('nDate').value=n.date||'';
+  document.getElementById('nTitle').value=n.title||'';
+  document.getElementById('nImg').value=n.img||'';
+  document.getElementById('nEditIdx').value=idx;
+  document.getElementById('newsForm').style.display='block';
+}
+
+function saveNewsItem(){
+  var date=document.getElementById('nDate').value.trim();
+  var title=document.getElementById('nTitle').value.trim();
+  var img=document.getElementById('nImg').value.trim();
+  var idx=parseInt(document.getElementById('nEditIdx').value);
+  if(!title){alert('제목을 입력하세요.');return;}
+  var data=getNews();
+  var item={date:date,title:title,img:img};
+  if(idx>=0){data[idx]=item;}else{data.unshift(item);}
+  saveNews(data);
+  renderNews();
+  document.getElementById('newsForm').style.display='none';
+}
+
+function delNews(idx){
+  if(!confirm('이 뉴스를 삭제하시겠습니까?'))return;
+  var data=getNews();data.splice(idx,1);saveNews(data);renderNews();
+}
+
+// Nav scroll
+var nav=document.querySelector('.admin-nav');
+</script>
+</body>
+</html>
