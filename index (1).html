@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
+  <title>STUDIOMoW | Premium Korean Genre Cinema</title>
+  <meta name="description" content="STUDIOMoW — 한국형 장르영화 전문 제작사">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Serif+KR:wght@300;400;700&family=Noto+Sans+KR:wght@300;400;500;700&family=Montserrat:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <style>
+    /* Hero */
+    .hero{position:relative;height:100vh;min-height:640px;overflow:hidden;display:flex;align-items:center}
+    #heroCanvas{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+    .hero-overlay{position:absolute;inset:0;z-index:1;background:radial-gradient(ellipse at 60% 40%,rgba(92,20,25,0.18) 0%,transparent 60%),linear-gradient(to bottom,rgba(15,14,13,0.6) 0%,rgba(15,14,13,0.1) 50%,rgba(15,14,13,0.8) 100%)}
+    .hero-grain{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:0.07;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");background-size:180px;animation:grainShift 0.12s steps(1) infinite}
+    @keyframes grainShift{0%{background-position:0 0}25%{background-position:60px -30px}50%{background-position:-40px 20px}75%{background-position:30px 50px}}
+    .hero-vignette{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse at center,transparent 35%,rgba(15,14,13,0.82) 100%)}
+    .hero-flicker{position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse at 50% 50%,rgba(142,32,40,0.06) 0%,transparent 70%);animation:flickerPulse 3.7s ease-in-out infinite}
+    @keyframes flickerPulse{0%,100%{opacity:0.4}18%{opacity:0.9}20%{opacity:0.2}22%{opacity:0.85}50%{opacity:0.5}72%{opacity:0.95}74%{opacity:0.15}76%{opacity:0.8}}
+    .hero-content{position:relative;z-index:3;padding:0 48px;max-width:1200px;margin:0 auto;width:100%;padding-top:var(--nav-h);animation:heroFadeUp 1.6s var(--ease-out) 0.4s both}
+    @keyframes heroFadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+    .hero-en{font-family:var(--font-heading);font-size:11px;font-weight:500;letter-spacing:0.35em;color:var(--text-sub);text-transform:uppercase;margin-bottom:24px}
+    .hero-ko{font-family:var(--font-serif-ko);font-size:clamp(14px,1.7vw,17px);font-weight:300;color:var(--text-sub);line-height:2.1;margin-bottom:40px;max-width:360px}
+    .hero-scroll{position:absolute;bottom:44px;right:52px;display:flex;align-items:center;gap:10px;z-index:3;animation:heroFadeUp 1.6s var(--ease-out) 1.2s both}
+    .hero-scroll span{font-family:var(--font-display);font-size:10px;letter-spacing:0.4em;color:var(--text-mute);writing-mode:vertical-rl}
+    .scroll-line{width:1px;height:56px;background:linear-gradient(to bottom,var(--red),transparent);animation:scrollPulse 2.4s ease-in-out infinite}
+    @keyframes scrollPulse{0%,100%{opacity:0.4;transform:scaleY(1)}50%{opacity:1;transform:scaleY(0.6)}}
+
+    /* About */
+    .about-text-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
+
+    /* Director timeline */
+    .timeline-row{display:flex;flex-wrap:wrap;gap:0;border-top:1px solid var(--border);margin-top:36px}
+    .timeline-cell{flex:1;min-width:100px;padding:20px 16px 20px 0;border-right:1px solid var(--border)}
+    .timeline-cell:last-child{border-right:none;padding-right:0}
+    .t-year{font-family:var(--font-display);font-size:20px;color:var(--red);line-height:1;margin-bottom:6px}
+    .t-title{font-family:var(--font-heading);font-size:13px;font-weight:600;color:var(--text);line-height:1.4;margin-bottom:4px}
+    .t-platform{font-family:var(--font-heading);font-size:10px;letter-spacing:0.06em;color:var(--text-mute)}
+
+    /* Collab */
+    .collab-grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border)}
+    .collab-card-4{background:var(--surface1);padding:48px 20px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:16px;transition:background 0.3s;min-height:160px}
+    .collab-card-4:hover{background:var(--surface2)}
+    .collab-icon-4{font-size:28px}
+    .collab-title-4{font-family:var(--font-heading);font-size:18px;font-weight:700;color:var(--text)}
+
+    /* Biz list */
+    .biz-list-item{display:flex;align-items:flex-start;justify-content:space-between;padding:24px 0;border-bottom:1px solid var(--border);transition:padding-left 0.25s}
+    .biz-list-item:hover{padding-left:8px}
+    .biz-list-left{display:flex;align-items:flex-start;gap:20px}
+    .biz-list-num{font-family:var(--font-display);font-size:28px;color:rgba(142,32,40,0.22);transition:color 0.25s;line-height:1;flex-shrink:0;padding-top:2px}
+    .biz-list-item:hover .biz-list-num{color:var(--red)}
+    .biz-list-title{font-family:var(--font-heading);font-size:15px;font-weight:700;color:var(--text);margin-bottom:6px}
+    .biz-list-desc{font-size:14px;color:#c8c2b8;line-height:1.85}
+
+    /* News */
+    .news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
+    .news-card{background:var(--surface1);overflow:hidden}
+    .news-card-body{padding:28px 28px 32px}
+    .news-card-date{font-family:var(--font-heading);font-size:10px;letter-spacing:0.12em;color:var(--text-mute);margin-bottom:12px}
+    .news-card-title{font-family:var(--font-heading);font-size:15px;font-weight:700;color:var(--text);line-height:1.55;margin-bottom:16px}
+    .news-card-more{font-family:var(--font-heading);font-size:10px;letter-spacing:0.15em;color:var(--red);text-transform:uppercase}
+    .news-empty{background:var(--surface1);padding:80px 32px;text-align:center;color:var(--text-mute);font-size:13px;grid-column:1/-1;line-height:2}
+
+    /* Email CTA block */
+    .email-cta{display:inline-flex;flex-direction:column;align-items:center;gap:12px;padding:36px 60px;border:1px solid var(--border-red);text-decoration:none;transition:background 0.3s;background:var(--bg)}
+    .email-cta:hover{background:rgba(142,32,40,0.08)}
+    .email-cta-label{font-family:var(--font-display);font-size:15px;font-weight:700;letter-spacing:0.5em;color:var(--red)}
+    .email-cta-addr{font-family:var(--font-heading);font-size:clamp(18px,2.4vw,26px);font-weight:700;color:#f0ece6}
+    .email-cta-hint{font-size:13px;color:#b0aa9e}
+
+    /* Contact label */
+    .contact-label{font-family:var(--font-display);font-size:15px;font-weight:700;letter-spacing:0.4em;color:var(--red);min-width:100px}
+
+    @media(max-width:1024px){
+      .about-text-grid{grid-template-columns:1fr;gap:48px}
+      .collab-grid-4{grid-template-columns:repeat(2,1fr)}
+      .timeline-row{flex-wrap:wrap}
+      .timeline-cell{min-width:140px}
+      .biz-2col{grid-template-columns:1fr!important}
+    }
+    @media(max-width:768px){
+      .hero-content{padding:0 24px;padding-top:var(--nav-h)}
+      .hero-scroll{display:none}
+      .collab-grid-4{grid-template-columns:1fr 1fr}
+      .news-grid{grid-template-columns:1fr}
+    }
+    @media(max-width:480px){.collab-grid-4{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo"><span class="logo-studio">STUDIO</span><span class="logo-mow">MoW</span></a>
+    <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+    <ul class="nav-menu" id="navMenu">
+      <li><a href="#about">About</a></li>
+      <li><a href="#director">Director</a></li>
+      <li><a href="#collaboration">Collaboration</a></li>
+      <li><a href="#business">Business</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li class="lang-switch">
+        <a href="index.html" class="lang-btn lang-active">KO</a>
+        <span style="color:var(--text-mute);margin:0 2px;">|</span>
+        <a href="index_en.html" class="lang-btn">EN</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <canvas id="heroCanvas"></canvas>
+  <div class="hero-overlay"></div>
+  <div class="hero-grain"></div>
+  <div class="hero-vignette"></div>
+  <div class="hero-flicker"></div>
+  <div class="hero-content">
+    <div class="hero-rule"></div>
+    <div class="hero-en">PREMIUM KOREAN GENRE CINEMA</div>
+    <h1 class="hero-title">
+      <span class="logo-studio-h">STUDIO</span>
+      <span class="logo-mow-h">MoW</span>
+    </h1>
+    <p class="hero-ko">
+      공포와 스릴러, 미스터리와 드라마<br>
+      인간 내면의 어둠을 탐구하는<br>
+      시네마틱 장르 스토리를 만듭니다
+    </p>
+    <div class="hero-cta">
+      <a href="#collaboration" class="btn btn-primary">Collaboration</a>
+      <a href="#business" class="btn btn-outline">Business</a>
+    </div>
+  </div>
+  <div class="hero-scroll"><span>SCROLL</span><div class="scroll-line"></div></div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about" style="background:var(--bg);">
+  <div class="container">
+    <div class="about-text-grid">
+      <div>
+        <div class="section-header">
+          <div class="section-tag">ABOUT</div>
+          <h2 class="section-title">장르를 설계하고<br>이야기를 완성합니다</h2>
+        </div>
+        <p class="about-body">
+          <span class="pc-only">STUDIOMoW는 공포·스릴러·미스터리 등<br>장르 영화에 특화된 스토리 중심 제작사입니다</span><span class="mob-only">STUDIOMoW는 공포·스릴러·미스터리 등<br>장르 영화에 특화된<br>스토리 중심 제작사입니다</span><br><br>
+          <span class="pc-only">새로운 장르 IP를 개발하고<br>영화·드라마·시리즈·OTT 콘텐츠로<br>확장하여 글로벌 시장을 만들어 갑니다</span><span class="mob-only">새로운 장르 IP를 개발하고<br>영화·드라마·시리즈·OTT 콘텐츠로<br>확장하여 글로벌 시장을 만들어 갑니다</span>
+        </p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:0;">
+        <div class="pillar">
+          <div class="pillar-icon">◈</div>
+          <div><div class="pillar-title">장르 전문성</div><div class="pillar-desc" style="color:#c8c2b8;font-size:14px;"><span class="pc-only">공포·오컬트·스릴러에 특화된 제작 시스템과 장르 브랜드 구축</span><span class="mob-only">공포·오컬트·스릴러에 특화된<br>제작 시스템과 장르 브랜드 구축</span></div></div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">◈</div>
+          <div><div class="pillar-title">콘셉트 중심 기획</div><div class="pillar-desc" style="color:#c8c2b8;font-size:14px;"><span class="pc-only">소재·설정·공간·공포 체험이 이끄는 강한 IP 개발</span><span class="mob-only">소재·설정·공간·공포 체험이 이끄는<br>강한 IP 개발</span></div></div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">◈</div>
+          <div><div class="pillar-title">한국적 정서</div><div class="pillar-desc" style="color:#c8c2b8;font-size:14px;"><span class="pc-only">가장 로컬한 소재로 글로벌 공포를 설계하는 원천 IP 전략</span><span class="mob-only">가장 로컬한 소재로 글로벌 공포를<br>설계하는 원천 IP 전략</span></div></div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-icon">◈</div>
+          <div><div class="pillar-title">글로벌 IP 확장</div><div class="pillar-desc" style="color:#c8c2b8;font-size:14px;"><span class="pc-only">해외 리메이크·글로벌 OTT 확장을 염두에 둔 시리즈형 IP 구축</span><span class="mob-only">해외 리메이크·글로벌 OTT 확장을<br>염두에 둔 시리즈형 IP 구축</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIRECTOR -->
+<section class="director mob-collapsible" id="director">
+  <div class="director-bg">
+    <img src="" alt="" class="director-bg-img">
+    <div class="director-overlay"></div>
+  </div>
+  <div class="container">
+    <div class="mob-section-header" onclick="toggleSection('director')" style="position:relative;z-index:2;display:none;">
+      <div><div class="mob-section-tag">DIRECTOR</div><h2>임 대 웅 감독</h2></div>
+      <div class="mob-toggle-icon">+</div>
+    </div>
+    <div class="section-header section-header-light mob-desktop-header" style="position:relative;z-index:2;margin-bottom:32px;">
+      <div class="section-tag">DIRECTOR</div>
+      <h2 class="section-title">임 대 웅 감독</h2>
+      <p style="font-size:15px;color:var(--text-sub);margin-top:8px;font-family:var(--font-serif-ko);font-weight:300;">장르물의 스타일리스트</p>
+    </div>
+    <div class="director-grid mob-collapsible-body" style="display:grid;">
+      <div class="director-info">
+        <div class="director-desc">
+          <p><span class="pc-only">블룸하우스 모델의 핵심인 <strong>'한정된 공간, 극대화된 공포'</strong>를<br>연출하는 국내 최고의 장르 전문가</span><span class="mob-only">블룸하우스 모델의 핵심인<br><strong>'한정된 공간, 극대화된 공포'</strong>를<br>연출하는 최고의 장르 전문가</span></p>
+          <p><span class="pc-only">장르 전문성과 다양한 포맷 경험, 트렌드 대응의 균형을 갖추었으며<br>OTT 환경에 최적화된 긴장감 연출에 특화되어 있습니다</span><span class="mob-only">장르 전문성과 다양한 포맷 경험,<br>트렌드 대응의 균형을 갖춘<br>OTT 환경에 최적화된 긴장감 연출가</span></p>
+          <p><span class="pc-only">K-Horror Lab의 총괄 멘토로서 차세대 인재 발굴 및<br>육성 시스템을 주도합니다</span><span class="mob-only">K-Horror Lab의 총괄 멘토로서<br>차세대 인재 발굴 및<br>육성 시스템을 주도합니다</span></p>
+        </div>
+        <div class="timeline-row">
+          <div class="timeline-cell">
+            <div class="t-year">2026</div>
+            <div class="t-title">M : 리부트</div>
+            <div class="t-platform">연출 중 · TVING</div>
+          </div>
+          <div class="timeline-cell">
+            <div class="t-year">2025</div>
+            <div class="t-title">청담국제고등학교 시즌2</div>
+            <div class="t-platform">Wavve · Netflix</div>
+          </div>
+          <div class="timeline-cell">
+            <div class="t-year">2023</div>
+            <div class="t-title">괴담만찬</div>
+            <div class="t-platform">영화</div>
+          </div>
+          <div class="timeline-cell">
+            <div class="t-year">2022</div>
+            <div class="t-title">미드나잇 호러: 6개의 밤</div>
+            <div class="t-platform">영화</div>
+          </div>
+        </div>
+        <div class="timeline-row" style="margin-top:0;border-top:none;">
+          <div class="timeline-cell">
+            <div class="t-year">2020</div>
+            <div class="t-title">써 치</div>
+            <div class="t-platform">OCN</div>
+          </div>
+          <div class="timeline-cell">
+            <div class="t-year">2017</div>
+            <div class="t-title">불속지객<br><span style="font-weight:400;color:var(--text-mute);">중국제작</span></div>
+            <div class="t-platform">영화</div>
+          </div>
+          <div class="timeline-cell">
+            <div class="t-year">2012</div>
+            <div class="t-title">무서운 이야기</div>
+            <div class="t-platform">영화</div>
+          </div>
+          <div class="timeline-cell">
+            <div class="t-year">2006</div>
+            <div class="t-title">스승의 은혜</div>
+            <div class="t-platform">영화</div>
+          </div>
+        </div>
+      </div>
+      <div class="momentum-card">
+        <div class="momentum-label">CURRENT PROJECT</div>
+        <div class="momentum-title">M : 리부트</div>
+        <div class="momentum-row"><span class="momentum-key">플랫폼</span><span class="momentum-val accent">TVING</span></div>
+        <div class="momentum-row"><span class="momentum-key">촬영 시작</span><span class="momentum-val">2026년 5월</span></div>
+        <div class="momentum-row"><span class="momentum-key">현황</span><span class="momentum-val accent">확정</span></div>
+        <p class="momentum-desc">
+          1994년 대한민국을 공포로 몰아넣었던<br>
+          전설적 드라마 'M'.<br>
+          임대웅 감독이 2026년,<br>
+          현대적 감각의 리부트를 연출합니다.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COLLABORATION -->
+<section style="padding:var(--section-pad) 0;background:var(--surface1);" id="collaboration" class="mob-collapsible">
+  <div class="container">
+    <div class="mob-section-header" onclick="toggleSection('collaboration')" style="display:none;">
+      <div><div class="mob-section-tag">COLLABORATION</div><h2>함께할 인재를 모십니다</h2></div>
+      <div class="mob-toggle-icon">+</div>
+    </div>
+    <div class="section-header mob-desktop-header">
+      <div class="section-tag">COLLABORATION</div>
+      <h2 class="section-title">함께할 인재를<br>모십니다</h2>
+      <p style="font-size:17px;color:var(--text-sub);margin-top:20px;line-height:2.1;max-width:600px;">
+        <span class="pc-only">장르영화를 사랑하는 모든 분들의 이야기를 듣고 싶습니다<br>분야와 경력에 관계없이 열정으로 지원 부탁 드립니다</span><span class="mob-only">장르영화를 사랑하는<br>모든 분들의<br>이야기를 듣고 싶습니다</span>
+      </p>
+    </div>
+
+    <div class="collab-grid-4" style="margin-bottom:64px;">
+      <div class="collab-card-4">
+        <div class="collab-icon-4">✍️</div>
+        <div class="collab-title-4">작 가</div>
+      </div>
+      <div class="collab-card-4">
+        <div class="collab-icon-4">🎬</div>
+        <div class="collab-title-4">감 독</div>
+      </div>
+      <div class="collab-card-4">
+        <div class="collab-icon-4">🎭</div>
+        <div class="collab-title-4">배 우</div>
+      </div>
+      <div class="collab-card-4">
+        <div class="collab-icon-4">🎥</div>
+        <div class="collab-title-4">스 탭</div>
+      </div>
+    </div>
+
+    <div style="text-align:center;padding-top:48px;border-top:1px solid var(--border);">
+      <div style="font-family:var(--font-display);font-size:18px;font-weight:700;letter-spacing:0.4em;color:var(--red);margin-bottom:20px;">CONTACT</div>
+      <p style="font-size:16px;color:#e0dbd2;line-height:2.1;margin-bottom:40px;font-weight:500;">
+        프로필, 포트폴리오, 작품 링크 등<br>
+        자유로운 형식으로 보내주세요<br>
+        검토 후 적합한 경우 직접 연락 드리겠습니다
+      </p>
+      <a href="mailto:studiomow75@gmail.com?subject=[Collaboration] 이름_분야" class="email-cta">
+        <span class="email-cta-label">EMAIL</span>
+        <span class="email-cta-addr">studiomow75@gmail.com</span>
+        <span class="email-cta-hint">제목 · [Collaboration] 이름_분야</span>
+      </a>
+      <p style="margin-top:20px;font-size:12px;color:var(--text-mute);">
+        제출하신 정보는 인재 검토 목적으로만 사용되며, 제3자에게 제공하지 않습니다
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- BUSINESS -->
+<section style="padding:var(--section-pad) 0;background:var(--bg);" id="business" class="mob-collapsible">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;" class="biz-2col">
+      <div>
+        <div class="section-header" style="margin-bottom:28px;">
+          <div class="section-tag">BUSINESS</div>
+          <h2 class="section-title">전략적 파트너십을<br>제안합니다</h2>
+        </div>
+        <p style="font-size:15px;color:#c8c2b8;line-height:2.1;margin-bottom:36px;">
+          <span class="pc-only">STUDIOMoW는 투자·공동제작·배급·OTT·IP 기반 사업 등<br>다양한 비즈니스 협업을 환영합니다</span><span class="mob-only">STUDIOMoW는<br>투자·공동제작·배급·OTT·IP 기반 사업 등<br>다양한 비즈니스 협업을 환영합니다</span>
+        </p>
+        <a href="mailto:studiomow75@gmail.com?subject=[Business] 회사명_제안유형" class="email-cta" style="align-items:flex-start;">
+          <span class="email-cta-label">EMAIL</span>
+          <span class="email-cta-addr">studiomow75@gmail.com</span>
+          <span class="email-cta-hint">제목 · [Business] 회사명_제안유형</span>
+        </a>
+      </div>
+
+      <div>
+        <div class="biz-list">
+          <div class="biz-list-item">
+            <div class="biz-list-left">
+              <div class="biz-list-num">01</div>
+              <div>
+                <div class="biz-list-title">투자제안</div>
+                <div class="biz-list-desc">장르영화 프로젝트 투자 참여<br><span class="pc-only">명확한 제작 구조와 체계적인 리스크 관리 시스템을 지향합니다</span><span class="mob-only">명확한 제작 구조와 체계적인 리스크 관리<br>시스템을 지향합니다</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="biz-list-item">
+            <div class="biz-list-left">
+              <div class="biz-list-num">02</div>
+              <div>
+                <div class="biz-list-title">공동제작</div>
+                <div class="biz-list-desc">국내외 프로덕션과의 공동 제작<br><span class="pc-only">K-Horror IP의 해외 리메이크 공동 개발도 제안을 환영합니다</span><span class="mob-only">K-Horror IP의 해외 리메이크<br>공동 개발의 제안을 환영합니다</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="biz-list-item">
+            <div class="biz-list-left">
+              <div class="biz-list-num">03</div>
+              <div>
+                <div class="biz-list-title">배급협력</div>
+                <div class="biz-list-desc"><span class="pc-only">국내외 극장 배급사 · OTT 플랫폼 · 해외 세일즈 에이전트와의<br>파트너십을 환영합니다</span><span class="mob-only">극장 배급사·OTT 플랫폼·해외 세일즈<br>에이전트와의 파트너십을 환영합니다</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="biz-list-item">
+            <div class="biz-list-left">
+              <div class="biz-list-num">04</div>
+              <div>
+                <div class="biz-list-title">MOU</div>
+                <div class="biz-list-desc">엔터테인먼트 관련 전략적 파트너십을 환영합니다</div>
+              </div>
+            </div>
+          </div>
+          <div class="biz-list-item" style="border-bottom:none;">
+            <div class="biz-list-left">
+              <div class="biz-list-num">05</div>
+              <div>
+                <div class="biz-list-title">글로벌 파트너</div>
+                <div class="biz-list-desc"><span class="pc-only">해외 영화제 출품 · 국제 공동제작 · 글로벌 OTT 피칭을<br>함께할 파트너를 모십니다</span><span class="mob-only">영화제 출품·국제 공동제작·글로벌 OTT 피칭을<br>함께할 파트너를 모십니다</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" style="padding:var(--section-pad) 0;background:var(--bg);border-top:1px solid var(--border);">
+  <div class="container">
+    <div class="section-tag" style="margin-bottom:48px;font-size:16px;font-weight:700;letter-spacing:0.4em;">CONTACT</div>
+    <div style="display:flex;align-items:center;gap:80px;margin-bottom:48px;">
+      <h2 style="flex:1;font-family:var(--font-heading);font-size:clamp(22px,2.6vw,34px);font-weight:700;line-height:1.7;letter-spacing:-0.02em;color:var(--text);margin:0;">
+        낯선 감각, 강렬한 이야기<br>
+        STUDIOMoW와 함께<br>
+        새로운 장르를 시작합니다
+      </h2>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,8vw,96px);line-height:0.9;letter-spacing:-0.02em;margin-bottom:14px;">
+          <span style="color:var(--text);">STUDIO</span><span style="color:var(--red);">MoW</span>
+        </div>
+        <div style="font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:0.55em;color:var(--text-mute);">PREMIUM KOREAN GENRE CINEMA</div>
+      </div>
+    </div>
+    <div style="border-top:1px solid var(--border);padding-top:32px;display:flex;flex-direction:column;gap:0;">
+      <div style="display:flex;align-items:center;gap:28px;padding:18px 0;border-bottom:1px solid var(--border);">
+        <span class="contact-label">ADDRESS</span>
+        <span style="font-size:15px;color:#e0dbd2;font-weight:500;">서울시 강남구 언주로 639, 1065호</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:28px;padding:18px 0;border-bottom:1px solid var(--border);">
+        <span class="contact-label">EMAIL</span>
+        <a href="mailto:studiomow75@gmail.com" style="font-size:16px;color:#e0dbd2;font-weight:600;transition:color 0.2s;" onmouseover="this.style.color='var(--red-light)'" onmouseout="this.style.color='#e0dbd2'">studiomow75@gmail.com</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-logo"><span class="logo-studio">STUDIO</span><span class="logo-mow">MoW</span></div>
+      <div class="footer-links">
+        <a href="#collaboration">Collaboration</a>
+        <a href="#business">Business</a>
+        <a href="#news">News</a>
+      </div>
+      <div class="footer-copy">© 2026 STUDIOMoW. All rights reserved.</div>
+    </div>
+  </div>
+  <div class="footer-legal">© 2026 STUDIOMoW | www.studiomow.co.kr</div>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+(function(){
+  var items=JSON.parse(localStorage.getItem('news_items')||'[]');
+  if(!items.length)return;
+  var grid=document.getElementById('newsGrid');
+  document.getElementById('newsEmpty').style.display='none';
+  items.slice(0,3).forEach(function(n){
+    var card=document.createElement('div');
+    card.className='news-card';
+    card.innerHTML='<div class="news-card-body">'+
+      '<div class="news-card-date">'+n.date+'</div>'+
+      '<div class="news-card-title">'+n.title+'</div>'+
+      '<div class="news-card-more">MORE →</div>'+
+    '</div>';
+    grid.appendChild(card);
+  });
+})();
+
+(function(){
+  var canvas=document.getElementById('heroCanvas'),ctx=canvas.getContext('2d');
+  var W,H,particles=[],wisps=[],frame=0;
+  function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
+  resize();window.addEventListener('resize',resize);
+  function P(){this.reset();}
+  P.prototype.reset=function(){this.x=Math.random()*W;this.y=Math.random()*H;this.r=80+Math.random()*200;this.vx=(Math.random()-0.5)*0.18;this.vy=-0.05-Math.random()*0.12;this.alpha=0.02+Math.random()*0.06;this.life=0;this.maxLife=300+Math.random()*400;this.red=Math.random()<0.15;};
+  P.prototype.update=function(){this.x+=this.vx;this.y+=this.vy;this.life++;if(this.life>this.maxLife||this.y<-this.r)this.reset();};
+  P.prototype.draw=function(){var a=this.alpha*Math.sin(this.life/this.maxLife*Math.PI);var g=ctx.createRadialGradient(this.x,this.y,0,this.x,this.y,this.r);g.addColorStop(0,this.red?'rgba(100,15,20,'+a+')':'rgba(30,28,25,'+a+')');g.addColorStop(1,'rgba(15,14,13,0)');ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();};
+  function W2(){this.reset();}
+  W2.prototype.reset=function(){this.x=Math.random()*W;this.y=H*0.4+Math.random()*H*0.6;this.pts=[];var n=6+Math.floor(Math.random()*6);for(var i=0;i<n;i++)this.pts.push({x:this.x+(Math.random()-0.5)*60,y:this.y-i*(20+Math.random()*30),vx:(Math.random()-0.5)*0.3,vy:-0.04-Math.random()*0.08});this.alpha=0.025+Math.random()*0.04;this.life=0;this.maxLife=500+Math.random()*500;this.w=1+Math.random()*2.5;};
+  W2.prototype.update=function(){this.life++;for(var i=0;i<this.pts.length;i++){this.pts[i].x+=this.pts[i].vx+Math.sin(frame*0.01+i)*0.15;this.pts[i].y+=this.pts[i].vy;}if(this.life>this.maxLife)this.reset();};
+  W2.prototype.draw=function(){if(this.pts.length<2)return;var a=this.alpha*Math.sin(this.life/this.maxLife*Math.PI);ctx.beginPath();ctx.moveTo(this.pts[0].x,this.pts[0].y);for(var i=1;i<this.pts.length;i++){var mx=(this.pts[i-1].x+this.pts[i].x)/2,my=(this.pts[i-1].y+this.pts[i].y)/2;ctx.quadraticCurveTo(this.pts[i-1].x,this.pts[i-1].y,mx,my);}ctx.strokeStyle='rgba(142,32,40,'+a+')';ctx.lineWidth=this.w;ctx.lineCap='round';ctx.stroke();};
+  var lt=0,la=0;
+  for(var i=0;i<28;i++){var p=new P();p.life=Math.random()*p.maxLife;particles.push(p);}
+  for(var j=0;j<8;j++){var w=new W2();w.life=Math.random()*w.maxLife;wisps.push(w);}
+  var zs=1.06,zd=1;
+  function draw(){
+    frame++;ctx.clearRect(0,0,W,H);
+    ctx.fillStyle='#0f0e0d';ctx.fillRect(0,0,W,H);
+    particles.forEach(function(p){p.update();p.draw();});
+    wisps.forEach(function(w){w.update();w.draw();});
+    lt--;if(lt<=0){lt=200+Math.random()*600;la=0.04+Math.random()*0.06;}
+    if(la>0){ctx.fillStyle='rgba(180,160,140,'+la+')';ctx.fillRect(0,0,W,H);la-=0.008;if(la<0)la=0;}
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+function toggleSection(id) {
+  var section = document.getElementById(id);
+  if (!section) return;
+  section.classList.toggle('open');
+  var body = section.querySelector('.mob-collapsible-body');
+  if (body) {
+    if (section.classList.contains('open')) {
+      body.style.display = '';
+    } else {
+      body.style.display = 'none';
+    }
+  }
+}
+
+function initMobile() {
+  if (window.innerWidth > 768) return;
+  document.querySelectorAll('.mob-section-header').forEach(function(el) {
+    el.style.display = 'flex';
+  });
+  document.querySelectorAll('.mob-desktop-header').forEach(function(el) {
+    el.style.display = 'none';
+  });
+  document.querySelectorAll('.mob-collapsible-body').forEach(function(el) {
+    el.style.display = 'none';
+  });
+}
+
+window.addEventListener('load', initMobile);
+window.addEventListener('resize', function() {
+  if (window.innerWidth > 768) {
+    document.querySelectorAll('.mob-collapsible-body').forEach(function(el) {
+      el.style.display = '';
+    });
+    document.querySelectorAll('.mob-section-header').forEach(function(el) {
+      el.style.display = 'none';
+    });
+    document.querySelectorAll('.mob-desktop-header').forEach(function(el) {
+      el.style.display = '';
+    });
+  } else {
+    initMobile();
+  }
+});
+</script>
+</body>
+</html>
