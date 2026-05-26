@@ -27,7 +27,7 @@
     .scroll-line{width:1px;height:56px;background:linear-gradient(to bottom,var(--red),transparent);animation:scrollPulse 2.4s ease-in-out infinite}
     @keyframes scrollPulse{0%,100%{opacity:0.4;transform:scaleY(1)}50%{opacity:1;transform:scaleY(0.6)}}
 
-    /* About — 텍스트 2단 레이아웃 (사진 없음) */
+    /* About */
     .about-text-grid{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start}
 
     /* Director timeline */
@@ -52,7 +52,7 @@
     .biz-list-num{font-family:var(--font-display);font-size:28px;color:rgba(142,32,40,0.22);transition:color 0.25s;line-height:1;flex-shrink:0;padding-top:2px}
     .biz-list-item:hover .biz-list-num{color:var(--red)}
     .biz-list-title{font-family:var(--font-heading);font-size:15px;font-weight:700;color:var(--text);margin-bottom:6px}
-    .biz-list-desc{font-size:13px;color:var(--text-mute);line-height:1.85}
+    .biz-list-desc{font-size:14px;color:#c8c2b8;line-height:1.85}
 
     /* News */
     .news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
@@ -66,9 +66,12 @@
     /* Email CTA block */
     .email-cta{display:inline-flex;flex-direction:column;align-items:center;gap:12px;padding:36px 60px;border:1px solid var(--border-red);text-decoration:none;transition:background 0.3s;background:var(--bg)}
     .email-cta:hover{background:rgba(142,32,40,0.08)}
-    .email-cta-label{font-family:var(--font-display);font-size:11px;letter-spacing:0.5em;color:var(--red)}
-    .email-cta-addr{font-family:var(--font-heading);font-size:clamp(16px,2.2vw,24px);font-weight:700;color:var(--text)}
-    .email-cta-hint{font-size:12px;color:var(--text-mute)}
+    .email-cta-label{font-family:var(--font-display);font-size:15px;font-weight:700;letter-spacing:0.5em;color:var(--red)}
+    .email-cta-addr{font-family:var(--font-heading);font-size:clamp(18px,2.4vw,26px);font-weight:700;color:#f0ece6}
+    .email-cta-hint{font-size:13px;color:#b0aa9e}
+
+    /* Contact label */
+    .contact-label{font-family:var(--font-display);font-size:15px;font-weight:700;letter-spacing:0.4em;color:var(--red);min-width:100px}
 
     @media(max-width:1024px){
       .about-text-grid{grid-template-columns:1fr;gap:48px}
@@ -152,19 +155,19 @@
       <div style="display:flex;flex-direction:column;gap:0;">
         <div class="pillar">
           <div class="pillar-icon">◈</div>
-          <div><div class="pillar-title">장르 전문성</div><div class="pillar-desc"><span class="pc-only">공포·오컬트·스릴러에 특화된 제작 시스템과 장르 브랜드 구축</span><span class="mob-only">공포·오컬트·스릴러에 특화된<br>제작 시스템과 장르 브랜드 구축</span></div></div>
+          <div><div class="pillar-title">장르 전문성</div><div class="pillar-desc" style="color:#c8c2b8;font-size:14px;"><span class="pc-only">공포·오컬트·스릴러에 특화된 제작 시스템과 장르 브랜드 구축</span><span class="mob-only">공포·오컬트·스릴러에 특화된<br>제작 시스템과 장르 브랜드 구축</span></div></div>
         </div>
         <div class="pillar">
           <div class="pillar-icon">◈</div>
-          <div><div class="pillar-title">콘셉트 중심 기획</div><div class="pillar-desc"><span class="pc-only">소재·설정·공간·공포 체험이 이끄는 강한 IP 개발</span><span class="mob-only">소재·설정·공간·공포 체험이 이끄는<br>강한 IP 개발</span></div></div>
+          <div><div class="pillar-title">콘셉트 중심 기획</div><div class="pillar-desc" style="color:#c8c2b8;font-size:14px;"><span class="pc-only">소재·설정·공간·공포 체험이 이끄는 강한 IP 개발</span><span class="mob-only">소재·설정·공간·공포 체험이 이끄는<br>강한 IP 개발</span></div></div>
         </div>
         <div class="pillar">
           <div class="pillar-icon">◈</div>
-          <div><div class="pillar-title">한국적 정서</div><div class="pillar-desc"><span class="pc-only">가장 로컬한 소재로 글로벌 공포를 설계하는 원천 IP 전략</span><span class="mob-only">가장 로컬한 소재로 글로벌 공포를<br>설계하는 원천 IP 전략</span></div></div>
+          <div><div class="pillar-title">한국적 정서</div><div class="pillar-desc" style="color:#c8c2b8;font-size:14px;"><span class="pc-only">가장 로컬한 소재로 글로벌 공포를 설계하는 원천 IP 전략</span><span class="mob-only">가장 로컬한 소재로 글로벌 공포를<br>설계하는 원천 IP 전략</span></div></div>
         </div>
         <div class="pillar">
           <div class="pillar-icon">◈</div>
-          <div><div class="pillar-title">글로벌 IP 확장</div><div class="pillar-desc"><span class="pc-only">해외 리메이크·글로벌 OTT 확장을 염두에 둔 시리즈형 IP 구축</span><span class="mob-only">해외 리메이크·글로벌 OTT 확장을<br>염두에 둔 시리즈형 IP 구축</span></div></div>
+          <div><div class="pillar-title">글로벌 IP 확장</div><div class="pillar-desc" style="color:#c8c2b8;font-size:14px;"><span class="pc-only">해외 리메이크·글로벌 OTT 확장을 염두에 둔 시리즈형 IP 구축</span><span class="mob-only">해외 리메이크·글로벌 OTT 확장을<br>염두에 둔 시리즈형 IP 구축</span></div></div>
         </div>
       </div>
     </div>
@@ -178,12 +181,10 @@
     <div class="director-overlay"></div>
   </div>
   <div class="container">
-    <!-- 모바일 헤더 (클릭으로 펼치기) -->
     <div class="mob-section-header" onclick="toggleSection('director')" style="position:relative;z-index:2;display:none;">
       <div><div class="mob-section-tag">DIRECTOR</div><h2>임 대 웅 감독</h2></div>
       <div class="mob-toggle-icon">+</div>
     </div>
-    <!-- 데스크탑 헤더 -->
     <div class="section-header section-header-light mob-desktop-header" style="position:relative;z-index:2;margin-bottom:32px;">
       <div class="section-tag">DIRECTOR</div>
       <h2 class="section-title">임 대 웅 감독</h2>
@@ -274,26 +275,26 @@
     </div>
 
     <div class="collab-grid-4" style="margin-bottom:64px;">
-      <div class="collab-card-4" style="align-items:center;text-align:center;">
+      <div class="collab-card-4">
         <div class="collab-icon-4">✍️</div>
         <div class="collab-title-4">작 가</div>
       </div>
-      <div class="collab-card-4" style="align-items:center;text-align:center;">
+      <div class="collab-card-4">
         <div class="collab-icon-4">🎬</div>
         <div class="collab-title-4">감 독</div>
       </div>
-      <div class="collab-card-4" style="align-items:center;text-align:center;">
+      <div class="collab-card-4">
         <div class="collab-icon-4">🎭</div>
         <div class="collab-title-4">배 우</div>
       </div>
-      <div class="collab-card-4" style="align-items:center;text-align:center;">
+      <div class="collab-card-4">
         <div class="collab-icon-4">🎥</div>
         <div class="collab-title-4">스 탭</div>
       </div>
     </div>
 
     <div style="text-align:center;padding-top:48px;border-top:1px solid var(--border);">
-      <div style="font-family:var(--font-display);font-size:11px;letter-spacing:0.5em;color:var(--red);margin-bottom:20px;">CONTACT</div>
+      <div style="font-family:var(--font-display);font-size:18px;font-weight:700;letter-spacing:0.4em;color:var(--red);margin-bottom:20px;">CONTACT</div>
       <p style="font-size:16px;color:#e0dbd2;line-height:2.1;margin-bottom:40px;font-weight:500;">
         프로필, 포트폴리오, 작품 링크 등<br>
         자유로운 형식으로 보내주세요<br>
@@ -320,7 +321,7 @@
           <div class="section-tag">BUSINESS</div>
           <h2 class="section-title">전략적 파트너십을<br>제안합니다</h2>
         </div>
-        <p style="font-size:14px;color:var(--text-sub);line-height:2.1;margin-bottom:36px;">
+        <p style="font-size:15px;color:#c8c2b8;line-height:2.1;margin-bottom:36px;">
           <span class="pc-only">STUDIOMoW는 투자·공동제작·배급·OTT·IP 기반 사업 등<br>다양한 비즈니스 협업을 환영합니다</span><span class="mob-only">STUDIOMoW는<br>투자·공동제작·배급·OTT·IP 기반 사업 등<br>다양한 비즈니스 협업을 환영합니다</span>
         </p>
         <a href="mailto:studiomow75@gmail.com?subject=[Business] 회사명_제안유형" class="email-cta" style="align-items:flex-start;">
@@ -383,47 +384,33 @@
   </div>
 </section>
 
-
-
 <!-- CONTACT -->
 <section id="contact" style="padding:var(--section-pad) 0;background:var(--bg);border-top:1px solid var(--border);">
   <div class="container">
-
-    <!-- 상단: 섹션 태그 -->
-    <div class="section-tag" style="margin-bottom:48px;">CONTACT</div>
-
-    <!-- 핵심 레이아웃: h2 왼쪽 / 로고 오른쪽 — 같은 행, 가운데 정렬 -->
+    <div class="section-tag" style="margin-bottom:48px;font-size:16px;font-weight:700;letter-spacing:0.4em;">CONTACT</div>
     <div style="display:flex;align-items:center;gap:80px;margin-bottom:48px;">
-
-      <!-- 왼쪽: h2 3줄만 -->
       <h2 style="flex:1;font-family:var(--font-heading);font-size:clamp(22px,2.6vw,34px);font-weight:700;line-height:1.7;letter-spacing:-0.02em;color:var(--text);margin:0;">
         낯선 감각, 강렬한 이야기<br>
         STUDIOMoW와 함께<br>
         새로운 장르를 시작합니다
       </h2>
-
-      <!-- 오른쪽: 로고 — h2와 align:center로 완벽히 가운데 -->
       <div style="flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;">
         <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,8vw,96px);line-height:0.9;letter-spacing:-0.02em;margin-bottom:14px;">
           <span style="color:var(--text);">STUDIO</span><span style="color:var(--red);">MoW</span>
         </div>
         <div style="font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:0.55em;color:var(--text-mute);">PREMIUM KOREAN GENRE CINEMA</div>
       </div>
-
     </div>
-
-    <!-- 하단: 주소 + 이메일 -->
     <div style="border-top:1px solid var(--border);padding-top:32px;display:flex;flex-direction:column;gap:0;">
       <div style="display:flex;align-items:center;gap:28px;padding:18px 0;border-bottom:1px solid var(--border);">
-        <span style="font-family:var(--font-display);font-size:10px;letter-spacing:0.4em;color:var(--red);min-width:80px;">ADDRESS</span>
+        <span class="contact-label">ADDRESS</span>
         <span style="font-size:15px;color:#e0dbd2;font-weight:500;">서울시 강남구 언주로 639, 1065호</span>
       </div>
       <div style="display:flex;align-items:center;gap:28px;padding:18px 0;border-bottom:1px solid var(--border);">
-        <span style="font-family:var(--font-display);font-size:10px;letter-spacing:0.4em;color:var(--red);min-width:80px;">EMAIL</span>
-        <a href="mailto:studiomow75@gmail.com" style="font-size:14px;color:var(--text-sub);transition:color 0.2s;" onmouseover="this.style.color='var(--red-light)'" onmouseout="this.style.color='var(--text-sub)'">studiomow75@gmail.com</a>
+        <span class="contact-label">EMAIL</span>
+        <a href="mailto:studiomow75@gmail.com" style="font-size:16px;color:#e0dbd2;font-weight:600;transition:color 0.2s;" onmouseover="this.style.color='var(--red-light)'" onmouseout="this.style.color='#e0dbd2'">studiomow75@gmail.com</a>
       </div>
     </div>
-
   </div>
 </section>
 
@@ -444,7 +431,6 @@
 
 <script src="js/main.js"></script>
 <script>
-/* News from admin */
 (function(){
   var items=JSON.parse(localStorage.getItem('news_items')||'[]');
   if(!items.length)return;
@@ -462,7 +448,6 @@
   });
 })();
 
-/* Canvas animation */
 (function(){
   var canvas=document.getElementById('heroCanvas'),ctx=canvas.getContext('2d');
   var W,H,particles=[],wisps=[],frame=0;
@@ -482,7 +467,6 @@
   var zs=1.06,zd=1;
   function draw(){
     frame++;ctx.clearRect(0,0,W,H);
-    // 순수 검정 배경
     ctx.fillStyle='#0f0e0d';ctx.fillRect(0,0,W,H);
     particles.forEach(function(p){p.update();p.draw();});
     wisps.forEach(function(w){w.update();w.draw();});
@@ -493,7 +477,6 @@
   draw();
 })();
 
-/* ── Mobile collapsible sections ── */
 function toggleSection(id) {
   var section = document.getElementById(id);
   if (!section) return;
@@ -510,30 +493,20 @@ function toggleSection(id) {
 
 function initMobile() {
   if (window.innerWidth > 768) return;
-  
-  // 모바일: mob-section-header 표시, desktop-header 숨기기
   document.querySelectorAll('.mob-section-header').forEach(function(el) {
     el.style.display = 'flex';
   });
   document.querySelectorAll('.mob-desktop-header').forEach(function(el) {
     el.style.display = 'none';
   });
-  
-  // Director grid의 display:grid 해제 (mob-collapsible-body는 기본 숨김)
   document.querySelectorAll('.mob-collapsible-body').forEach(function(el) {
-    // director-grid는 특별처리
-    if (el.classList.contains('director-grid')) {
-      el.style.display = 'none';
-    } else {
-      el.style.display = 'none';
-    }
+    el.style.display = 'none';
   });
 }
 
 window.addEventListener('load', initMobile);
 window.addEventListener('resize', function() {
   if (window.innerWidth > 768) {
-    // 데스크탑: 모두 표시
     document.querySelectorAll('.mob-collapsible-body').forEach(function(el) {
       el.style.display = '';
     });
