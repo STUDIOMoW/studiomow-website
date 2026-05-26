@@ -77,7 +77,7 @@ ul{list-style:none}
 .hero-badge{font-family:var(--font-display);font-size:11px;letter-spacing:0.55em;color:var(--red);margin-bottom:28px}
 .hero-title{font-size:clamp(72px,13vw,148px);line-height:0.88;margin-bottom:32px;letter-spacing:-0.03em}
 .logo-studio-h{font-family:var(--font-display);color:var(--text);display:block}
-.logo-mow-h{font-family:var(--font-display);color:var(--red);display:block}
+.logo-mow-h{font-family:'Montserrat',sans-serif;font-weight:900;color:var(--red);display:block;font-size:clamp(72px,13vw,148px);line-height:0.88;letter-spacing:-0.03em;text-transform:none}
 .hero-sub{font-family:var(--font-serif-ko);font-size:clamp(14px,1.8vw,17px);font-weight:300;color:var(--text-sub);margin-bottom:44px;line-height:2;max-width:500px}
 .hero-cta{display:flex;gap:16px;flex-wrap:wrap}
 .hero-scroll{position:absolute;bottom:44px;right:52px;display:flex;align-items:center;gap:10px;z-index:2;animation:heroFadeUp 1.4s var(--ease-out) 0.9s both}
