@@ -16,7 +16,15 @@ if (navToggle && navMenu) {
   navToggle.addEventListener('click', () => {
     navToggle.classList.toggle('active');
     navMenu.classList.toggle('open');
-    document.body.style.overflow = navMenu.classList.contains('open') ? 'hidden' : '';
+    if (navMenu.classList.contains('open')) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+    } else {
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+    }
   });
   navMenu.querySelectorAll('a').forEach(a => {
     a.addEventListener('click', () => {
