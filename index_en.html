@@ -93,7 +93,7 @@
     <div class="hero-en">PREMIUM KOREAN GENRE CINEMA</div>
     <h1 class="hero-title">
       <span class="logo-studio-h">STUDIO</span>
-      <span class="logo-mow-h">MoW</span>
+      <span class="logo-mow-h">MOW</span>
     </h1>
     <p class="hero-ko">
       Horror, thriller, mystery and drama.<br>
@@ -170,7 +170,6 @@
         <div class="momentum-title">M : Reboot</div>
         <div class="momentum-row"><span class="momentum-key">Platform</span><span class="momentum-val accent">TVING</span></div>
         <div class="momentum-row"><span class="momentum-key">Principal Photography</span><span class="momentum-val">May 2026</span></div>
-        <div class="momentum-row"><span class="momentum-key">Status</span><span class="momentum-val accent">Confirmed</span></div>
         <p class="momentum-desc">
           A reboot of the legendary 1994 Korean drama 'M'<br>
           that gripped the nation with fear.<br>
@@ -249,33 +248,32 @@
   </div>
 </section>
 
-
-
 <!-- CONTACT -->
 <section id="contact" style="padding:var(--section-pad) 0;background:var(--bg);border-top:1px solid var(--border);">
   <div class="container">
     <div class="section-tag" style="margin-bottom:48px;">CONTACT</div>
     <div style="display:flex;gap:80px;align-items:center;margin-bottom:48px;">
       <h2 style="flex:1;font-family:var(--font-heading);font-size:clamp(22px,2.6vw,34px);font-weight:700;line-height:1.7;letter-spacing:-0.02em;color:var(--text);margin:0;">
-        An unfamiliar sensation, a powerful story.<br>
-        Together with STUDIOMoW,<br>
-        a new genre begins.
+        An unfamiliar sensation<br>
+        a powerful story<br>
+        Together with STUDIOMoW<br>
+        a new genre begins
       </h2>
       <div style="flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;">
         <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,8vw,96px);line-height:0.9;letter-spacing:-0.02em;margin-bottom:14px;">
-          <span style="color:var(--text);">STUDIO</span><span style="color:var(--red);">MoW</span>
+          <span style="color:var(--text);">STUDIO</span><span style="color:var(--red);">MOW</span>
         </div>
-        <div style="font-family:'Montserrat',sans-serif;font-size:11px;letter-spacing:0.55em;color:var(--text-mute);">PREMIUM KOREAN GENRE CINEMA</div>
+        <div style="font-family:'Montserrat',sans-serif;font-size:12px;font-weight:600;letter-spacing:0.55em;color:#c8c2b8;">PREMIUM KOREAN GENRE CINEMA</div>
       </div>
     </div>
     <div style="border-top:1px solid var(--border);padding-top:32px;display:flex;flex-direction:column;gap:0;">
       <div style="display:flex;align-items:center;gap:28px;padding:18px 0;border-bottom:1px solid var(--border);">
-        <span style="font-family:var(--font-display);font-size:10px;letter-spacing:0.4em;color:var(--red);min-width:80px;">ADDRESS</span>
-        <span style="font-size:14px;color:var(--text-sub);">639 Eonju-ro, Gangnam-gu, Seoul, 1065 (Hansol Bldg)</span>
+        <span style="font-family:var(--font-display);font-size:15px;font-weight:700;letter-spacing:0.4em;color:var(--red);min-width:100px;">ADDRESS</span>
+        <span style="font-size:15px;color:#e0dbd2;font-weight:500;">639 Eonju-ro, Gangnam-gu, Seoul (Hansol Bldg)</span>
       </div>
       <div style="display:flex;align-items:center;gap:28px;padding:18px 0;border-bottom:1px solid var(--border);">
-        <span style="font-family:var(--font-display);font-size:10px;letter-spacing:0.4em;color:var(--red);min-width:80px;">EMAIL</span>
-        <a href="mailto:studiomow75@gmail.com" style="font-size:14px;color:var(--text-sub);transition:color 0.2s;" onmouseover="this.style.color='var(--red-light)'" onmouseout="this.style.color='var(--text-sub)'">studiomow75@gmail.com</a>
+        <span style="font-family:var(--font-display);font-size:15px;font-weight:700;letter-spacing:0.4em;color:var(--red);min-width:100px;">EMAIL</span>
+        <a href="mailto:studiomow75@gmail.com" style="font-size:16px;color:#e0dbd2;font-weight:600;transition:color 0.2s;" onmouseover="this.style.color='var(--red-light)'" onmouseout="this.style.color='#e0dbd2'">studiomow75@gmail.com</a>
       </div>
     </div>
   </div>
@@ -328,9 +326,8 @@
   for(var i=0;i<28;i++){var p=new P();p.life=Math.random()*p.maxLife;particles.push(p);}
   for(var j=0;j<8;j++){var w=new W2();w.life=Math.random()*w.maxLife;wisps.push(w);}
   var zs=1.06,zd=1;
-  il = 1;
-  var zs=1.06,zd=1;
-  function draw(){frame++;ctx.clearRect(0,0,W,H);if(il>0&&imgs[ii]&&imgs[ii].complete&&imgs[ii].naturalWidth){zs+=0.00008*zd;if(zs>1.12)zd=-1;if(zs<1.06)zd=1;var iw=imgs[ii].naturalWidth||W,ih=imgs[ii].naturalHeight||H,sc=Math.max(W/iw,H/ih)*zs,dw=iw*sc,dh=ih*sc,dx=(W-dw)/2,dy=(H-dh)/2;ctx.globalAlpha=0.55;ctx.filter='grayscale(40%) brightness(0.38)';ctx.drawImage(imgs[ii],dx,dy,dw,dh);ctx.filter='none';ctx.globalAlpha=1;it++;if(it>420){it=0;ii=(ii+1)%imgs.length;}}else{ctx.fillStyle='#0f0e0d';ctx.fillRect(0,0,W,H);}particles.forEach(function(p){p.update();p.draw();});wisps.forEach(function(w){w.update();w.draw();});lt--;if(lt<=0){lt=200+Math.random()*600;la=0.04+Math.random()*0.06;}if(la>0){ctx.fillStyle='rgba(180,160,140,'+la+')';ctx.fillRect(0,0,W,H);la-=0.008;if(la<0)la=0;}requestAnimationFrame(draw);}
+  function draw(){frame++;ctx.clearRect(0,0,W,H);ctx.fillStyle='#0f0e0d';ctx.fillRect(0,0,W,H);
+  particles.forEach(function(p){p.update();p.draw();});wisps.forEach(function(w){w.update();w.draw();});lt--;if(lt<=0){lt=200+Math.random()*600;la=0.04+Math.random()*0.06;}if(la>0){ctx.fillStyle='rgba(180,160,140,'+la+')';ctx.fillRect(0,0,W,H);la-=0.008;if(la<0)la=0;}requestAnimationFrame(draw);}
   draw();
 })();
 </script>
