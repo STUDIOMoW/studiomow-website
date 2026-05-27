@@ -20,17 +20,26 @@ if (navToggle && navMenu) {
       document.body.style.overflow = 'hidden';
       document.body.style.position = 'fixed';
       document.body.style.width = '100%';
+      document.body.style.top = `-${window.scrollY}px`;
     } else {
+      const scrollY = document.body.style.top;
       document.body.style.overflow = '';
       document.body.style.position = '';
       document.body.style.width = '';
+      document.body.style.top = '';
+      window.scrollTo(0, parseInt(scrollY || '0') * -1);
     }
   });
   navMenu.querySelectorAll('a').forEach(a => {
     a.addEventListener('click', () => {
+      const scrollY = document.body.style.top;
       navToggle.classList.remove('active');
       navMenu.classList.remove('open');
       document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.top = '';
+      window.scrollTo(0, parseInt(scrollY || '0') * -1);
     });
   });
 }
@@ -54,7 +63,6 @@ document.querySelectorAll('.fade-in, .stat-item, .strategy-item, .team-card, .ma
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Add visible class via CSS
   const style = document.createElement('style');
   style.textContent = '.visible { opacity: 1 !important; transform: translateY(0) !important; }';
   document.head.appendChild(style);
@@ -72,12 +80,10 @@ if (talentForm) {
     btn.textContent = '전송 중...';
     btn.disabled = true;
 
-    // Collect form data (in real deployment, send to backend/email)
     const fd = new FormData(talentForm);
     const data = {};
     fd.forEach((v, k) => { data[k] = v; });
 
-    // Save to localStorage for admin demo (in real deployment, use server)
     try {
       const submissions = JSON.parse(localStorage.getItem('talent_submissions') || '[]');
       submissions.unshift({
