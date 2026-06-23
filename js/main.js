@@ -30,16 +30,32 @@ if (navToggle && navMenu) {
       window.scrollTo(0, parseInt(scrollY || '0') * -1);
     }
   });
+
   navMenu.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => {
+    a.addEventListener('click', (e) => {
+      const href = a.getAttribute('href');
       const scrollY = document.body.style.top;
+
+      // 메뉴 닫기
       navToggle.classList.remove('active');
       navMenu.classList.remove('open');
       document.body.style.overflow = '';
       document.body.style.position = '';
       document.body.style.width = '';
       document.body.style.top = '';
-      window.scrollTo(0, parseInt(scrollY || '0') * -1);
+
+      // 앵커 링크면 직접 처리 (body position:fixed 해제 후 한 프레임 대기)
+      if (href && href.startsWith('#')) {
+        e.preventDefault();
+        const target = document.querySelector(href);
+        if (target) {
+          setTimeout(() => {
+            target.scrollIntoView({ behavior: 'smooth' });
+          }, 10);
+        }
+      } else {
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      }
     });
   });
 }
