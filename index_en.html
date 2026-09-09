@@ -31,7 +31,8 @@
     .timeline-cell:last-child{border-right:none}
     .t-year{font-family:var(--font-display);font-size:20px;color:var(--red);line-height:1;margin-bottom:6px}
     .t-title{font-family:var(--font-heading);font-size:13px;font-weight:600;color:var(--text);line-height:1.4;margin-bottom:4px}
-    .t-platform{font-family:var(--font-heading);font-size:10px;letter-spacing:0.06em;color:var(--text-mute)}
+    .t-platform{font-family:var(--font-heading);font-size:11px;font-weight:500;letter-spacing:0.06em;color:#bdb7ad}
+    .t-note{font-weight:400;color:#bdb7ad}
     .collab-grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border)}
     .collab-card-4{background:var(--surface1);padding:48px 20px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:16px;transition:background 0.3s;min-height:160px}
     .collab-card-4:hover{background:var(--surface2)}
@@ -42,7 +43,7 @@
     .biz-list-num{font-family:var(--font-display);font-size:28px;color:rgba(142,32,40,0.22);transition:color 0.25s;line-height:1;flex-shrink:0;min-width:52px;padding-top:2px}
     .biz-list-item:hover .biz-list-num{color:var(--red)}
     .biz-list-title{font-family:var(--font-heading);font-size:15px;font-weight:700;color:var(--text);margin-bottom:6px}
-    .biz-list-desc{font-size:13px;color:var(--text-mute);line-height:1.9}
+    .biz-list-desc{font-size:14px;color:#c8c2b8;line-height:1.85}
     .news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border)}
     .news-card{background:var(--surface1);overflow:hidden}
     .news-card-body{padding:28px 28px 32px}
@@ -54,9 +55,23 @@
     .email-cta:hover{background:rgba(142,32,40,0.08)}
     .email-cta-label{font-family:var(--font-display);font-size:11px;letter-spacing:0.5em;color:var(--red)}
     .email-cta-addr{font-family:var(--font-heading);font-size:clamp(16px,2.2vw,24px);font-weight:700;color:var(--text)}
-    .email-cta-hint{font-size:12px;color:var(--text-mute)}
+    .email-cta-hint{font-size:12px;color:#b0aa9e}
     @media(max-width:1024px){.about-text-grid{grid-template-columns:1fr;gap:48px}.collab-grid-4{grid-template-columns:repeat(2,1fr)}.timeline-row{flex-wrap:wrap}.timeline-cell{min-width:140px}.biz-2col{grid-template-columns:1fr!important}}
-    @media(max-width:768px){.hero-content{padding:0 24px;padding-top:var(--nav-h)}.hero-scroll{display:none}.collab-grid-4{grid-template-columns:1fr 1fr}.news-grid{grid-template-columns:1fr}.about-text-grid{grid-template-columns:1fr!important}}
+    @media(max-width:768px){
+      .hero-content{padding:0 24px;padding-top:var(--nav-h)}
+      .hero-scroll{display:none}
+      .collab-grid-4{grid-template-columns:1fr 1fr}
+      .news-grid{grid-template-columns:1fr}
+      .about-text-grid{grid-template-columns:1fr!important}
+      /* Filmography: fixed 2-column on mobile to prevent cell overlap */
+      .timeline-row{margin-top:24px}
+      .timeline-cell{flex:0 0 50%;max-width:50%;min-width:0;padding:16px 14px 16px 0;box-sizing:border-box}
+      .timeline-cell:nth-child(2n){border-right:none;padding-right:0}
+      .timeline-cell:last-child{border-right:none}
+      .t-year{font-size:18px}
+      .t-title{font-size:12.5px}
+      .t-platform{font-size:11px}
+    }
     @media(max-width:480px){.collab-grid-4{grid-template-columns:1fr}}
   </style>
 </head>
@@ -157,10 +172,10 @@
         <div class="timeline-row">
           <div class="timeline-cell"><div class="t-year">2026</div><div class="t-title">M : Reboot</div><div class="t-platform">In Production · TVING</div></div>
           <div class="timeline-cell"><div class="t-year">2025</div><div class="t-title">Cheongdam Intl High S2</div><div class="t-platform">Wavve · Netflix</div></div>
-          <div class="timeline-cell"><div class="t-year">2023</div><div class="t-title">Goedam Manchan</div><div class="t-platform">Film</div></div>
+          <div class="timeline-cell"><div class="t-year">2023</div><div class="t-title">Night Has Come</div><div class="t-platform">LGU+ · Netflix</div></div>
           <div class="timeline-cell"><div class="t-year">2022</div><div class="t-title">Midnight Horror:<br>6 Nights</div><div class="t-platform">Film</div></div>
           <div class="timeline-cell"><div class="t-year">2020</div><div class="t-title">Search</div><div class="t-platform">OCN</div></div>
-          <div class="timeline-cell"><div class="t-year">2017</div><div class="t-title">Bulsokjigaek<br><span style="font-weight:400;color:var(--text-mute);">China Co-prod</span></div><div class="t-platform">Film</div></div>
+          <div class="timeline-cell"><div class="t-year">2017</div><div class="t-title">Bulsokjigaek<br><span class="t-note">China Co-prod</span></div><div class="t-platform">Film</div></div>
           <div class="timeline-cell"><div class="t-year">2012</div><div class="t-title">Horror Stories</div><div class="t-platform">Film</div></div>
           <div class="timeline-cell"><div class="t-year">2006</div><div class="t-title">Seungseuui Eunhye</div><div class="t-platform">Film</div></div>
         </div>
@@ -169,12 +184,12 @@
         <div class="momentum-label">CURRENT PROJECT</div>
         <div class="momentum-title">M : Reboot</div>
         <div class="momentum-row"><span class="momentum-key">Platform</span><span class="momentum-val accent">TVING</span></div>
-        <div class="momentum-row"><span class="momentum-key">Principal Photography</span><span class="momentum-val">May 2026</span></div>
+        <div class="momentum-row"><span class="momentum-key">In Production</span><span class="momentum-val">Airing 2027</span></div>
         <p class="momentum-desc">
           A reboot of the legendary 1994 Korean drama 'M'<br>
-          that gripped the nation with fear.<br>
-          Director Daewung Lim brings it back in 2026<br>
-          with a bold contemporary vision.
+          that gripped the nation with fear<br>
+          Director Daewung Lim brings it back<br>
+          with a bold contemporary vision
         </p>
       </div>
     </div>
@@ -300,7 +315,9 @@
   var items=JSON.parse(localStorage.getItem('news_items')||'[]');
   if(!items.length)return;
   var grid=document.getElementById('newsGrid');
-  document.getElementById('newsEmpty').style.display='none';
+  if(!grid)return;
+  var empty=document.getElementById('newsEmpty');
+  if(empty)empty.style.display='none';
   items.slice(0,3).forEach(function(n){
     var card=document.createElement('div');
     card.className='news-card';
